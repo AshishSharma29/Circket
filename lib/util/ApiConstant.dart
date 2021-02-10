@@ -3,4 +3,5 @@ class ApiConstant {
 
   static var getAllMatch = "Api/Match/GetAll";
   static var getAllContest = "Api/Contest/GetAll/";
+  static var myContest = "Api/Contest/MyContest";
 }

@@ -42,6 +42,8 @@ class ImageUtils {
 
   static String changePassword = _imagesRoot + 'change_password.png';
   static String clockCircle = _imagesRoot + 'clock_circle.png';
-  static String bgClock = _imagesRoot+'bg_clock.png';
+  static String bgClock = _imagesRoot + 'bg_clock.png';
   static String edit = _imagesRoot + 'edit.png';
+  static String APP_LOGO = _imagesRoot + 'app_logo.png';
+  static String APP_LOGO_BANNER = _imagesRoot + 'app_logo_banner.png';
 }

@@ -38,19 +38,18 @@ class _UpcomingMatchListState extends State<UpcomingMatchList> {
     if (isLoading) getMatchList(context);
 
     return Container(
-      child: matchList == null
-          ? Padding(
-              padding: const EdgeInsets.all(16),
-              child: Center(child: LinearProgressIndicator()))
+      child: isLoading
+          ? Util().getLoader()
           : ListView.builder(
               padding: const EdgeInsets.all(8),
               itemCount: matchList.length,
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed(RouteNames.contest,
+                    Navigator.of(context).pushNamed(RouteNames.contest_tab,
                         arguments: {
-                          'matchId': matchList[index].matchId.toString()
+                          'matchId': matchList[index].matchId.toString(),
+                          'matchTitle': matchList[index].matchTitle.toString()
                         });
                   },
                   child: Card(
@@ -59,7 +58,7 @@ class _UpcomingMatchListState extends State<UpcomingMatchList> {
                       child: Column(
                         children: [
                           TextWidget(
-                            text: '${matchList[index].matchTitle}',
+                            text: '${matchList[index].tournamentTitle}',
                             color: ColorUtils.green,
                             textSize: 18,
                             fontWeight: FontStyles.bold,
@@ -75,7 +74,7 @@ class _UpcomingMatchListState extends State<UpcomingMatchList> {
                                     image: new DecorationImage(
                                         fit: BoxFit.cover,
                                         image: NetworkImage(
-                                            '${matchList[index].team1Icon}'))),
+                                            '${Constant.IMAGE_URL}${matchList[index].team1Icon}'))),
                               ),
                               TextWidget(text: '${matchList[index].startTime}'),
                               Container(
@@ -86,7 +85,7 @@ class _UpcomingMatchListState extends State<UpcomingMatchList> {
                                     image: new DecorationImage(
                                         fit: BoxFit.cover,
                                         image: NetworkImage(
-                                            '${matchList[index].team2Icon}'))),
+                                            '${Constant.IMAGE_URL}${matchList[index].team2Icon}'))),
                               ),
                             ],
                           )

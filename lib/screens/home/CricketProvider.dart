@@ -16,6 +16,11 @@ class CricketProvider with ChangeNotifier {
       matchList = (response['ResponsePacket'] as List)
           .map<MatchModel>((json) => MatchModel.fromJson(json))
           .toList();
+
+      var matchListUpcomingMatch = matchList
+          .where((element) => element.status.contains('Upcoming'))
+          .toList();
+
       return matchList;
     }
   }
@@ -31,5 +36,32 @@ class CricketProvider with ChangeNotifier {
           .toList();
       return contestList;
     }
+  }
+
+  Future<List<ContestModel>> getMyConstestList(
+      BuildContext context, String matchId, String userId) async {
+    var response = await NetworkUtil.callGetApi(
+        context: context,
+        apiName: ApiConstant.myContest + '?matchId=$matchId&userId=$userId');
+    if (response != null) {
+      print(response['ResponsePacket']);
+      contestList = (response['ResponsePacket'] as List)
+          .map<ContestModel>((json) => ContestModel.fromJson(json))
+          .toList();
+      return contestList;
+    }
+  }
+
+  List<MatchModel> getLiveMatch() {
+    var liveMatch =
+        matchList.where((element) => element.status.contains('Live')).toList();
+    return liveMatch;
+  }
+
+  List<MatchModel> getCompleteMatch() {
+    var completeMatch = matchList
+        .where((element) => element.status.contains('Complete'))
+        .toList();
+    return completeMatch;
   }
 }

@@ -1,3 +1,5 @@
+import 'package:cricquiz11/common_widget/ColorLoader.dart';
+import 'package:cricquiz11/common_widget/DotType.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
@@ -38,15 +40,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 30,
                 ),
                 Image.asset(
-                  ImageUtils.logoLogin,
-                  height: 150,
-                  width: 150,
+                  ImageUtils.APP_LOGO_BANNER,
                 ),
                 TextField(
                   keyboardType: TextInputType.number,
                   maxLength: 15,
                   controller: mobileController,
                   decoration: InputDecoration(
+                    counterText: '',
                     hintText: 'Mobile number',
                   ),
                 ),

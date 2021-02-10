@@ -13,6 +13,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../util/util.dart';
+
 class OtpVerification extends StatefulWidget {
   Map<String, String> arguments;
 
@@ -23,6 +25,7 @@ class OtpVerification extends StatefulWidget {
 }
 
 class _OtpVerificationState extends State<OtpVerification> {
+  TextEditingController referralController = TextEditingController();
   FocusNode _focusNode1 = FocusNode(),
       _focusNode2 = FocusNode(),
       _focusNode3 = FocusNode(),
@@ -70,22 +73,18 @@ class _OtpVerificationState extends State<OtpVerification> {
         ),
         body: Stack(
           children: [
-            Container(
-                // child: Image.asset(
-                //   ImageUtils.forgotPasswordBg,
-                //   fit: BoxFit.cover,
-                // ),
-                // width: double.infinity,
-                ),
             SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 alignment: Alignment.center,
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 50,
+                    ),
                     TextWidget(
                       text: Strings.verification,
-                      textSize: 20,
+                      textSize: 36,
                       fontWeight: FontStyles.light,
                       color: ColorUtils.green,
                     ),
@@ -343,17 +342,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                               if (data.isEmpty) {
                                 _focusNode6.unfocus();
                                 _focusNode5.requestFocus();
-                              } else {
-                                verifyOtp(
-                                    one.text +
-                                        two.text +
-                                        three.text +
-                                        four.text +
-                                        five.text +
-                                        six.text,
-                                    context,
-                                    args[Constant.mobileNumber]);
-                              }
+                              } else {}
                               setState(() {
                                 color6 = !data.isNotEmpty;
                               });
@@ -363,6 +352,42 @@ class _OtpVerificationState extends State<OtpVerification> {
                       ],
                     ),
                     SizedBox(
+                      height: 16,
+                    ),
+                    TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 8,
+                      controller: referralController,
+                      decoration: InputDecoration(
+                        counterText: '',
+                        hintText: 'Referral code(Optional)',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    isLoading
+                        ? Util().getLoader()
+                        : RaisedButton(
+                            padding: EdgeInsets.all(12),
+                            onPressed: () {
+                              verifyOtp(
+                                  one.text +
+                                      two.text +
+                                      three.text +
+                                      four.text +
+                                      five.text +
+                                      six.text,
+                                  context,
+                                  args[Constant.mobileNumber]);
+                            },
+                            color: ColorUtils.colorPrimary,
+                            child: TextWidget(
+                              color: ColorUtils.white,
+                              text: 'Verify',
+                            ),
+                          ),
+                    SizedBox(
                       height: 40,
                     ),
                     TextWidget(
@@ -371,11 +396,11 @@ class _OtpVerificationState extends State<OtpVerification> {
                       text: Strings.didNotReceiveCode,
                       textSize: 18,
                       fontWeight: FontStyles.regular,
-                      color: ColorUtils.white,
+                      color: ColorUtils.colorPrimary,
                     ),
                     InkWell(
                       onTap: () {
-                        // resendOtp(args['email']);
+                        sendOtp(widget.arguments[Constant.mobileNumber]);
                       },
                       child: TextWidget(
                         textAlign: TextAlign.center,
@@ -383,7 +408,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                         text: Strings.requestAgain,
                         textSize: 18,
                         fontWeight: FontStyles.regular,
-                        color: ColorUtils.white,
+                        color: ColorUtils.colorPrimary,
                       ),
                     ),
                   ],
@@ -399,8 +424,11 @@ class _OtpVerificationState extends State<OtpVerification> {
   String smsCode;
   String verificationID;
   int resendToken;
+  bool isLoading = false;
 
   sendOtp(String number) async {
+    isLoading = true;
+    setState(() {});
     FirebaseAuth.instance
         .verifyPhoneNumber(
           phoneNumber: '+91' + number,
@@ -416,6 +444,8 @@ class _OtpVerificationState extends State<OtpVerification> {
           codeSent: (String verificationId, int resendToken) {
             this.verificationID = verificationId;
             this.resendToken = resendToken;
+            isLoading = false;
+            setState(() {});
           },
           codeAutoRetrievalTimeout: (String verificationId) {},
         )
@@ -423,6 +453,8 @@ class _OtpVerificationState extends State<OtpVerification> {
   }
 
   verifyOtp(String otp, BuildContext context, String number) async {
+    isLoading = true;
+    setState(() {});
     prefs = await SharedPreferences.getInstance();
     PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
         verificationId: verificationID, smsCode: otp);
@@ -432,11 +464,15 @@ class _OtpVerificationState extends State<OtpVerification> {
       await auth
           .signInWithCredential(phoneAuthCredential)
           .then((value) async => {
-                NetworkUtil
-                    .callPostApi(
-                        context: context,
-                        apiName: ApiConstant.authentication,
-                        requestBody: {"MobileNumber": number}).then((value) => {
+                NetworkUtil.callPostApi(
+                    context: context,
+                    apiName: ApiConstant.authentication,
+                    requestBody: {
+                      'MobileNumber': number,
+                      'ReferralCode': referralController.text.toString()
+                    }).then((value) => {
+                      isLoading = false,
+                      setState(() {}),
                       prefs.setString(Constant.LoginResponse,
                           json.encode(value["ResponsePacket"])),
                       Navigator.of(context).pushNamed(

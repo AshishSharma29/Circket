@@ -1,8 +1,11 @@
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/util/colors.dart';
+import 'package:cricquiz11/util/constant.dart';
+import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home/HomeScreen.dart';
 import 'my_matchs/MyMatchScreen.dart';
@@ -39,8 +42,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               _logoutOnClick(context);
             },
             child: Padding(
-              child: Icon(Icons.signal_wifi_off),
-              padding: const EdgeInsets.all(8),
+              child: Image.asset(
+                ImageUtils.logout,
+                width: 32,
+                height: 32,
+              ),
+              padding: const EdgeInsets.all(12),
             ),
           ),
         ],
@@ -94,7 +101,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  void _logoutOnClick(BuildContext context) {
+  SharedPreferences prefs;
+
+  Future<void> _logoutOnClick(BuildContext context) async {
+    prefs = await SharedPreferences.getInstance();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -105,6 +115,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             FlatButton(
               child: Text(Strings.yes),
               onPressed: () {
+                prefs.setString(Constant.LoginResponse, null);
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     RouteNames.login, (route) => false);
               },

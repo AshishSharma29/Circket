@@ -1,10 +1,19 @@
 import 'dart:convert';
 
+import 'package:cricquiz11/common_widget/ColorLoader.dart';
+import 'package:cricquiz11/common_widget/DotType.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Util {
+  static final Util _singleton = Util._internal();
+
+  factory Util() {
+    return _singleton;
+  }
+
+  Util._internal();
   static void showValidationdialog(BuildContext context, String message) {
     // set up the button
     Widget okButton = FlatButton(
@@ -27,6 +36,16 @@ class Util {
       builder: (BuildContext context) {
         return alert;
       },
+    );
+  }
+
+  Widget getLoader() {
+    return ColorLoader(
+      dotOneColor: Colors.pink,
+      dotTwoColor: Colors.amber,
+      dotThreeColor: Colors.deepOrange,
+      dotType: DotType.square,
+      duration: Duration(seconds: 2),
     );
   }
 

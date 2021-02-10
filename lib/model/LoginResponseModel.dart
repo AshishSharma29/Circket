@@ -3,28 +3,25 @@ class LoginResponseModel {
   String _name;
   String _mobileNo;
   String _email;
-  Null _dOB;
-  bool _isActive;
-  bool _isDeleted;
-  String _createdOn;
+  String _dOB;
+  String _referralCode;
+  int _balance;
 
   LoginResponseModel(
       {int id,
-      String name,
-      String mobileNo,
-      String email,
-      Null dOB,
-      bool isActive,
-      bool isDeleted,
-      String createdOn}) {
+        String name,
+        String mobileNo,
+        String email,
+        String dOB,
+        String referralCode,
+        int balance}) {
     this._id = id;
     this._name = name;
     this._mobileNo = mobileNo;
     this._email = email;
     this._dOB = dOB;
-    this._isActive = isActive;
-    this._isDeleted = isDeleted;
-    this._createdOn = createdOn;
+    this._referralCode = referralCode;
+    this._balance = balance;
   }
 
   int get id => _id;
@@ -35,14 +32,12 @@ class LoginResponseModel {
   set mobileNo(String mobileNo) => _mobileNo = mobileNo;
   String get email => _email;
   set email(String email) => _email = email;
-  Null get dOB => _dOB;
-  set dOB(Null dOB) => _dOB = dOB;
-  bool get isActive => _isActive;
-  set isActive(bool isActive) => _isActive = isActive;
-  bool get isDeleted => _isDeleted;
-  set isDeleted(bool isDeleted) => _isDeleted = isDeleted;
-  String get createdOn => _createdOn;
-  set createdOn(String createdOn) => _createdOn = createdOn;
+  String get dOB => _dOB;
+  set dOB(String dOB) => _dOB = dOB;
+  String get referralCode => _referralCode;
+  set referralCode(String referralCode) => _referralCode = referralCode;
+  int get balance => _balance;
+  set balance(int balance) => _balance = balance;
 
   LoginResponseModel.fromJson(Map<String, dynamic> json) {
     _id = json['Id'];
@@ -50,9 +45,8 @@ class LoginResponseModel {
     _mobileNo = json['MobileNo'];
     _email = json['Email'];
     _dOB = json['DOB'];
-    _isActive = json['IsActive'];
-    _isDeleted = json['IsDeleted'];
-    _createdOn = json['CreatedOn'];
+    _referralCode = json['ReferralCode'];
+    _balance = json['Balance'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,9 +56,8 @@ class LoginResponseModel {
     data['MobileNo'] = this._mobileNo;
     data['Email'] = this._email;
     data['DOB'] = this._dOB;
-    data['IsActive'] = this._isActive;
-    data['IsDeleted'] = this._isDeleted;
-    data['CreatedOn'] = this._createdOn;
+    data['ReferralCode'] = this._referralCode;
+    data['Balance'] = this._balance;
     return data;
   }
 }

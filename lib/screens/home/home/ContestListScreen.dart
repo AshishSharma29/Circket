@@ -34,19 +34,9 @@ class _ContestListScreenState extends State<ContestListScreen> {
     var loginResponse = Util.read(Constant.LoginResponse);
     cricketProvider = Provider.of<CricketProvider>(context, listen: false);
     if (isLoading) getContestList(context, widget.argument['matchId']);
-    return Scaffold(
-      appBar: AppBar(
-        title: TextWidget(
-          text: 'Contest',
-          textSize: 16,
-          color: ColorUtils.white,
-        ),
-      ),
-      body: Container(
+    return Container(
         child: contestList == null
-            ? Padding(
-                padding: const EdgeInsets.all(16),
-                child: Center(child: LinearProgressIndicator()))
+            ? Util().getLoader()
             : ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: contestList.length,
@@ -73,7 +63,7 @@ class _ContestListScreenState extends State<ContestListScreen> {
                                     image: new DecorationImage(
                                         fit: BoxFit.cover,
                                         image: NetworkImage(
-                                            '${contestList[index].team1Icon}'))),
+                                            '${Constant.IMAGE_URL}${contestList[index].team1Icon}'))),
                               ),
                               TextWidget(
                                   text:
@@ -86,7 +76,7 @@ class _ContestListScreenState extends State<ContestListScreen> {
                                     image: new DecorationImage(
                                         fit: BoxFit.cover,
                                         image: NetworkImage(
-                                            '${contestList[index].team2Icon}'))),
+                                            '${Constant.IMAGE_URL}${contestList[index].team2Icon}'))),
                               ),
                             ],
                           )
@@ -96,8 +86,7 @@ class _ContestListScreenState extends State<ContestListScreen> {
                   );
                 },
               ),
-      ),
-    );
+      );
   }
 
   List<ContestModel> contestList;

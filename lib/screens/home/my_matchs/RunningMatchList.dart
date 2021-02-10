@@ -1,13 +1,38 @@
 import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
+import 'package:cricquiz11/model/MatchModel.dart';
 import 'package:cricquiz11/util/colors.dart';
+import 'package:cricquiz11/util/constant.dart';
 import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/route_name.dart';
+import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class RunningMatchList extends StatelessWidget {
+import '../CricketProvider.dart';
+
+class RunningMatchList extends StatefulWidget {
+  @override
+  _RunningMatchListState createState() => _RunningMatchListState();
+}
+
+class _RunningMatchListState extends State<RunningMatchList> {
+  var cricketProvider;
+
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isLoading = true;
+  }
+
   @override
   Widget build(BuildContext context) {
+    var loginResponse = Util.read(Constant.LoginResponse);
+    cricketProvider = Provider.of<CricketProvider>(context, listen: false);
+    if (isLoading) getRunningMatchList(context);
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
@@ -90,5 +115,15 @@ class RunningMatchList extends StatelessWidget {
         );
       },
     );
+  }
+
+  List<MatchModel> matchList;
+
+  Future<void> getRunningMatchList(BuildContext context) async {
+    isLoading = true;
+    matchList = cricketProvider.getLiveMatch(context);
+    print(matchList);
+    isLoading = false;
+    setState(() {});
   }
 }

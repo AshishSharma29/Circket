@@ -8,5 +8,5 @@ class RouteNames {
 
   static const String questionnaire = "\questionnaire";
   static const String dashboard = '\dashboard';
-  static const String contest = '\contest';
+  static const String contest_tab = '\contest_tab';
 }
