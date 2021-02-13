@@ -379,7 +379,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                       five.text +
                                       six.text,
                                   context,
-                                  args[Constant.mobileNumber]);
+                                  '+91' + args[Constant.mobileNumber]);
                             },
                             color: ColorUtils.colorPrimary,
                             child: TextWidget(

@@ -4,6 +4,7 @@ import 'package:cricquiz11/model/ContestModel.dart';
 import 'package:cricquiz11/screens/home/CricketProvider.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
+import 'package:cricquiz11/util/strings.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,13 +36,40 @@ class _ContestListScreenState extends State<ContestListScreen> {
     cricketProvider = Provider.of<CricketProvider>(context, listen: false);
     if (isLoading) getContestList(context, widget.argument['matchId']);
     return Container(
-        child: contestList == null
-            ? Util().getLoader()
-            : ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: contestList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
+      child: contestList == null
+          ? Util().getLoader()
+          : ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: contestList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(Strings.appName),
+                          content: Text('Do you want to join the contest?'),
+                          actions: [
+                            FlatButton(
+                              child: Text(Strings.yes),
+                              onPressed: () {
+                                joinContest(
+                                    context, contestList[index].id.toString());
+                              },
+                            ),
+                            FlatButton(
+                              child: Text(Strings.no),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Card(
                     child: Container(
                       padding: EdgeInsets.all(16),
                       child: Column(
@@ -83,10 +111,11 @@ class _ContestListScreenState extends State<ContestListScreen> {
                         ],
                       ),
                     ),
-                  );
-                },
-              ),
-      );
+                  ),
+                );
+              },
+            ),
+    );
   }
 
   List<ContestModel> contestList;
@@ -96,6 +125,13 @@ class _ContestListScreenState extends State<ContestListScreen> {
     contestList = await cricketProvider.getConstestList(context, matchId);
     print(contestList);
     isLoading = false;
+    setState(() {});
+  }
+
+  Future<void> joinContest(BuildContext context, String contestId) async {
+    var response = await cricketProvider.joinContest(context, contestId);
+    print(response);
+    Navigator.of(context).pop();
     setState(() {});
   }
 }

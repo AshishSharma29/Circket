@@ -3,7 +3,7 @@ class MatchModel {
   String _matchTitle;
   String _tournamentTitle;
   String _startTime;
-  Null _endTime;
+  String _endTime;
   String _status;
   String _team1Title;
   String _team1Icon;
@@ -15,7 +15,7 @@ class MatchModel {
       String matchTitle,
       String tournamentTitle,
       String startTime,
-      Null endTime,
+      String endTime,
       String status,
       String team1Title,
       String team1Icon,
@@ -34,25 +34,44 @@ class MatchModel {
   }
 
   int get matchId => _matchId;
+
   set matchId(int matchId) => _matchId = matchId;
+
   String get matchTitle => _matchTitle;
+
   set matchTitle(String matchTitle) => _matchTitle = matchTitle;
+
   String get tournamentTitle => _tournamentTitle;
+
   set tournamentTitle(String tournamentTitle) =>
       _tournamentTitle = tournamentTitle;
+
   String get startTime => _startTime;
+
   set startTime(String startTime) => _startTime = startTime;
-  Null get endTime => _endTime;
-  set endTime(Null endTime) => _endTime = endTime;
+
+  String get endTime => _endTime;
+
+  set endTime(String endTime) => _endTime = endTime;
+
   String get status => _status;
+
   set status(String status) => _status = status;
+
   String get team1Title => _team1Title;
+
   set team1Title(String team1Title) => _team1Title = team1Title;
+
   String get team1Icon => _team1Icon;
+
   set team1Icon(String team1Icon) => _team1Icon = team1Icon;
+
   String get team2Title => _team2Title;
+
   set team2Title(String team2Title) => _team2Title = team2Title;
+
   String get team2Icon => _team2Icon;
+
   set team2Icon(String team2Icon) => _team2Icon = team2Icon;
 
   MatchModel.fromJson(Map<String, dynamic> json) {
