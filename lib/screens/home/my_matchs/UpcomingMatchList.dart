@@ -40,62 +40,70 @@ class _UpcomingMatchListState extends State<UpcomingMatchList> {
     return Container(
       child: isLoading
           ? Util().getLoader()
-          : ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: matchList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(RouteNames.contest_tab,
-                        arguments: {
+          : matchList.length == 0
+              ? Center(
+                  child: TextWidget(
+                    text: 'No upcoming match',
+                  ),
+                )
+              : ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: matchList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(RouteNames.contest_tab, arguments: {
                           'matchId': matchList[index].matchId.toString(),
                           'matchTitle': matchList[index].matchTitle.toString()
                         });
-                  },
-                  child: Card(
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          TextWidget(
-                            text: '${matchList[index].tournamentTitle}',
-                            color: ColorUtils.green,
-                            textSize: 18,
-                            fontWeight: FontStyles.bold,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      },
+                      child: Card(
+                        child: Container(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
                             children: [
-                              Container(
-                                width: 50.0,
-                                height: 50.0,
-                                decoration: new BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: new DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                            '${Constant.IMAGE_URL}${matchList[index].team1Icon}'))),
+                              TextWidget(
+                                text: '${matchList[index].tournamentTitle}',
+                                color: ColorUtils.green,
+                                textSize: 18,
+                                fontWeight: FontStyles.bold,
                               ),
-                              TextWidget(text: '${matchList[index].startTime}'),
-                              Container(
-                                width: 50.0,
-                                height: 50.0,
-                                decoration: new BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: new DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                            '${Constant.IMAGE_URL}${matchList[index].team2Icon}'))),
-                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 50.0,
+                                    height: 50.0,
+                                    decoration: new BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                                '${Constant.IMAGE_URL}${matchList[index].team1Icon}'))),
+                                  ),
+                                  TextWidget(
+                                      text: '${matchList[index].startTime}'),
+                                  Container(
+                                    width: 50.0,
+                                    height: 50.0,
+                                    decoration: new BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: new DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(
+                                                '${Constant.IMAGE_URL}${matchList[index].team2Icon}'))),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                    );
+                  },
+                ),
     );
   }
 

@@ -17,7 +17,7 @@ class RunningMatchList extends StatefulWidget {
 }
 
 class _RunningMatchListState extends State<RunningMatchList> {
-  var cricketProvider;
+  CricketProvider cricketProvider;
 
   bool isLoading = false;
 
@@ -37,7 +37,7 @@ class _RunningMatchListState extends State<RunningMatchList> {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       padding: const EdgeInsets.all(8),
-      itemCount: 15,
+      itemCount: matchList.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           onTap: () {
@@ -52,14 +52,14 @@ class _RunningMatchListState extends State<RunningMatchList> {
                   Row(
                     children: [
                       TextWidget(
-                        text: 'IND',
+                        text: matchList[index].team1Title,
                         color: ColorUtils.green,
                         textSize: 12,
                         fontWeight: FontStyles.bold,
                       ),
                       Expanded(child: Container()),
                       TextWidget(
-                        text: 'PAK',
+                        text: matchList[index].team2Title,
                         color: ColorUtils.green,
                         textSize: 12,
                         fontWeight: FontStyles.bold,
@@ -79,7 +79,8 @@ class _RunningMatchListState extends State<RunningMatchList> {
                             shape: BoxShape.circle,
                             image: new DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage(ImageUtils.homeBg))),
+                                image: NetworkImage(
+                                    '${Constant.IMAGE_URL}${matchList[index].team1Icon}'))),
                       ),
                       TextWidget(text: 'Live'),
                       Container(
@@ -89,7 +90,8 @@ class _RunningMatchListState extends State<RunningMatchList> {
                             shape: BoxShape.circle,
                             image: new DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage(ImageUtils.homeBg))),
+                                image: NetworkImage(
+                                    '${Constant.IMAGE_URL}${matchList[index].team2Icon}'))),
                       ),
                     ],
                   ),

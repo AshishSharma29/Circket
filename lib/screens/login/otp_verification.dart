@@ -355,7 +355,6 @@ class _OtpVerificationState extends State<OtpVerification> {
                       height: 16,
                     ),
                     TextField(
-                      keyboardType: TextInputType.number,
                       maxLength: 8,
                       controller: referralController,
                       decoration: InputDecoration(

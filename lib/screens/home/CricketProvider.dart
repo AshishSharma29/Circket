@@ -24,7 +24,7 @@ class CricketProvider with ChangeNotifier {
           .where((element) => element.status.contains('Upcoming'))
           .toList();
 
-      return matchList;
+      return matchListUpcomingMatch;
     }
   }
 
@@ -71,15 +71,15 @@ class CricketProvider with ChangeNotifier {
     }
   }
 
-  List<MatchModel> getLiveMatch() {
+  List<MatchModel> getLiveMatch(BuildContext context) {
     var liveMatch =
         matchList.where((element) => element.status.contains('Live')).toList();
     return liveMatch;
   }
 
-  List<MatchModel> getCompleteMatch() {
+  List<MatchModel> getCompleteMatch(BuildContext context) {
     var completeMatch = matchList
-        .where((element) => element.status.contains('Complete'))
+        .where((element) => element.status.contains('Completed'))
         .toList();
     return completeMatch;
   }
