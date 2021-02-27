@@ -25,7 +25,8 @@ class CustomRouter {
         });
       case RouteNames.questionnaire:
         return MaterialPageRoute(builder: (_) {
-          return QuestionnaireScreen();
+          var data = settings.arguments as Map<String, String>;
+          return QuestionnaireScreen(data);
         });
       case RouteNames.dashboard:
         return MaterialPageRoute(builder: (_) {

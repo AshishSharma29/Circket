@@ -40,6 +40,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           InkWell(
             onTap: () {
               _logoutOnClick(context);
+              // _openQuestion(context);
             },
             child: Padding(
               child: Image.asset(
@@ -130,5 +131,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         );
       },
     );
+  }
+
+  void _openQuestion(BuildContext context) {
+    Navigator.of(context)
+        .pushNamed(RouteNames.questionnaire);
   }
 }

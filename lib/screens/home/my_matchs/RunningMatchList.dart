@@ -49,7 +49,12 @@ class _RunningMatchListState extends State<RunningMatchList> {
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(RouteNames.questionnaire);
+                      Navigator.of(context)
+                          .pushNamed(RouteNames.contest_tab, arguments: {
+                        'matchId': matchList[index].matchId.toString(),
+                        'matchTitle':
+                            matchList[index].tournamentTitle.toString()
+                      });
                     },
                     child: Card(
                       child: Container(

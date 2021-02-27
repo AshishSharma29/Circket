@@ -8,4 +8,5 @@ class ApiConstant {
   static const joinContest = 'Api/Contest/Join';
 
   static const getDetails = 'Api/User/GetDetails';
+  static const getAllQuestions = 'Api/Question/GetAll';
 }

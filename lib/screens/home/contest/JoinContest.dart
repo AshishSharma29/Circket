@@ -3,6 +3,7 @@ import 'package:cricquiz11/model/LoginResponseModel.dart';
 import 'package:cricquiz11/screens/home/CricketProvider.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
+import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -126,7 +127,7 @@ class _JoinContestState extends State<JoinContest> {
                 child: FlatButton(
                     color: ColorUtils.colorPrimary,
                     onPressed: () {
-                      joinContest(context, widget.contestModel.id.toString());
+                      joinContest(context, widget.contestModel);
                     },
                     child: Text(
                       'Start',
@@ -156,9 +157,11 @@ class _JoinContestState extends State<JoinContest> {
     setState(() {});
   }
 
-  Future<void> joinContest(BuildContext context, String contestId) async {
+  Future<void> joinContest(
+      BuildContext context, ContestModel contestModel) async {
     Util.showProgress(context);
-    var response = await cricketProvider.joinContest(context, contestId);
+    var response =
+        await cricketProvider.joinContest(context, contestModel.id.toString());
     print(response);
     Fluttertoast.showToast(
         msg: response.message,
@@ -170,6 +173,10 @@ class _JoinContestState extends State<JoinContest> {
         fontSize: 16.0);
     Navigator.of(context).pop();
     Navigator.of(context).pop();
+    Navigator.of(context).pushNamed(RouteNames.questionnaire, arguments: {
+      'contestId': contestModel.id.toString(),
+      'contestTitle': contestModel.tournamentTitle.toString()
+    });
     setState(() {});
   }
 }
