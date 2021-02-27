@@ -8,24 +8,24 @@ import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/material.dart';
 
 class CricketProvider with ChangeNotifier {
-  List<MatchModel> matchList;
   List<ContestModel> contestList;
 
-  Future<List<MatchModel>> getMatchList(BuildContext context) async {
-    var response = await NetworkUtil.callGetApi(
-        context: context, apiName: ApiConstant.getAllMatch);
+  Future<List<MatchModel>> getAllMatchList(BuildContext context) async {
+    var response = await NetworkUtil.callPostApi(
+        context: context,
+        apiName: ApiConstant.getAllMatch,
+        requestBody: {"UserId": '0', "Status": '1', "Page": '1'});
     if (response != null) {
       print(response['ResponsePacket']);
-      matchList = (response['ResponsePacket'] as List)
-          .map<MatchModel>((json) => MatchModel.fromJson(json))
-          .toList();
 
-      var matchListUpcomingMatch = matchList
-          .where((element) => element.status.contains('Upcoming'))
-          .toList();
-
+      var matchListUpcomingMatch = response['ResponsePacket'] != null
+          ? (response['ResponsePacket'] as List)
+              .map<MatchModel>((json) => MatchModel.fromJson(json))
+              .toList()
+          : List();
       return matchListUpcomingMatch;
-    }
+    } else
+      return List();
   }
 
   Future<List<ContestModel>> getConstestList(
@@ -43,9 +43,10 @@ class CricketProvider with ChangeNotifier {
 
   Future<List<ContestModel>> getMyConstestList(
       BuildContext context, String matchId, String userId) async {
-    var response = await NetworkUtil.callGetApi(
+    var response = await NetworkUtil.callPostApi(
         context: context,
-        apiName: ApiConstant.myContest + '?matchId=$matchId&userId=$userId');
+        apiName: ApiConstant.myContest,
+        requestBody: {'MatchId': matchId, 'UserId': userId});
     if (response != null) {
       print(response['ResponsePacket']);
       if (response['ResponsePacket'] == null) {
@@ -62,25 +63,35 @@ class CricketProvider with ChangeNotifier {
   Future<ContestJoinResponseModel> joinContest(
       BuildContext context, String matchId) async {
     var userModel = await Util.read(Constant.LoginResponse);
-    var response = await NetworkUtil.callGetApi(
+    var response = await NetworkUtil.callPostApi(
         context: context,
-        apiName: ApiConstant.myContest +
-            '?matchId=$matchId&userId=${userModel['Id']}');
+        apiName: ApiConstant.joinContest,
+        requestBody: {
+          'ContestId': matchId,
+          'UserId': userModel['Id'].toString()
+        });
     if (response != null) {
       return ContestJoinResponseModel.fromJson(response);
     }
   }
 
-  List<MatchModel> getLiveMatch(BuildContext context) {
-    var liveMatch =
-        matchList.where((element) => element.status.contains('Live')).toList();
-    return liveMatch;
-  }
+  Future<List<MatchModel>> getMyMatch(
+      BuildContext context, String status, String pageNumber) async {
+    var userModel = await Util.read(Constant.LoginResponse);
+    var response = await NetworkUtil.callPostApi(
+        context: context,
+        apiName: ApiConstant.getAllMatch,
+        requestBody: {
+          "UserId": userModel['Id'].toString(),
+          "Status": status,
+          "Page": pageNumber
+        });
 
-  List<MatchModel> getCompleteMatch(BuildContext context) {
-    var completeMatch = matchList
-        .where((element) => element.status.contains('Completed'))
-        .toList();
-    return completeMatch;
+    List<MatchModel> matchListUpcomingMatch = response['ResponsePacket'] != null
+        ? (response['ResponsePacket'] as List)
+            .map<MatchModel>((json) => MatchModel.fromJson(json))
+            .toList()
+        : List();
+    return matchListUpcomingMatch;
   }
 }

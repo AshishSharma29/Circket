@@ -5,4 +5,7 @@ class ApiConstant {
   static var getAllContest = "Api/Contest/GetAll/";
   static var myContest = "Api/Contest/MyContest";
   static var updateProfile = 'Api/User/UpdateProfile';
+  static const joinContest = 'Api/Contest/Join';
+
+  static const getDetails = 'Api/User/GetDetails';
 }

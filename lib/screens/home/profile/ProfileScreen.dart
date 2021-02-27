@@ -5,7 +5,6 @@ import 'package:cricquiz11/model/LoginResponseModel.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
-import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/network_util.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:cricquiz11/util/util.dart';
@@ -25,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (loginResponse == null) getUserData();
+    if (loginResponse == null) getUserData(context);
     return loginResponse == null
         ? Util().getLoader()
         : SingleChildScrollView(
@@ -42,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     textSize: 24,
                     text: loginResponse == null
                         ? ''
-                        : 'Balance : ${loginResponse.balance}',
+                        : 'Coins : ${loginResponse.balance}',
                   ),
                   SizedBox(
                     height: 16,
@@ -60,7 +59,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   InkWell(
                     child: Icon(Icons.share),
                     onTap: () {
-                      Share.share('check out my website https://example.com');
+                      Share.share(
+                          'download and install this app using ${loginResponse.referralCode} referral code and get 100 coins');
                     },
                   ),
                   SizedBox(
@@ -76,6 +76,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       labelText: Strings.name,
                       hintText: Strings.name,
                     ),
+                    onChanged: (value) {
+                      loginResponse.name = value;
+                    },
                   ),
                   SizedBox(
                     height: 16,
@@ -90,6 +93,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       labelText: Strings.email,
                       hintText: Strings.email,
                     ),
+                    onChanged: (value) {
+                      loginResponse.email = value;
+                    },
                   ),
                   SizedBox(
                     height: 16,
@@ -125,6 +131,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _onTap() async {
+    if (!_isEditable) {
+      _isEditable = !_isEditable;
+      setState(() {});
+      return;
+    }
     Util.showProgress(context);
     await NetworkUtil.callPostApi(
             context: context,
@@ -148,10 +159,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   SharedPreferences prefs;
 
-  Future<void> getUserData() async {
+  Future<void> getUserData(BuildContext context) async {
     prefs = await SharedPreferences.getInstance();
     var user = await Util.read(Constant.LoginResponse);
     loginResponse = LoginResponseModel.fromJson(user);
-    setState(() {});
+    var response = await NetworkUtil.callGetApi(
+      context: context,
+      apiName: ApiConstant.getDetails + '?userId=${loginResponse.id}',
+    );
+    print(response);
+    if (json.encode(response["ResponsePacket"]) != 'null') {
+      prefs.setString(
+          Constant.LoginResponse, json.encode(response["ResponsePacket"]));
+      loginResponse = LoginResponseModel.fromJson(response["ResponsePacket"]);
+      setState(() {});
+    }
   }
 }

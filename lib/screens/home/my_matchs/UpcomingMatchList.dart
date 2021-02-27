@@ -1,6 +1,7 @@
 import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/MatchModel.dart';
+import 'package:cricquiz11/util/MatchStatus.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
 import 'package:cricquiz11/util/route_name.dart';
@@ -20,7 +21,7 @@ class UpcomingMatchList extends StatefulWidget {
 }
 
 class _UpcomingMatchListState extends State<UpcomingMatchList> {
-  var cricketProvider;
+  CricketProvider cricketProvider;
 
   bool isLoading = false;
 
@@ -55,7 +56,8 @@ class _UpcomingMatchListState extends State<UpcomingMatchList> {
                         Navigator.of(context)
                             .pushNamed(RouteNames.contest_tab, arguments: {
                           'matchId': matchList[index].matchId.toString(),
-                          'matchTitle': matchList[index].matchTitle.toString()
+                          'matchTitle':
+                              matchList[index].tournamentTitle.toString()
                         });
                       },
                       child: Card(
@@ -84,7 +86,7 @@ class _UpcomingMatchListState extends State<UpcomingMatchList> {
                                                 '${Constant.IMAGE_URL}${matchList[index].team1Icon}'))),
                                   ),
                                   TextWidget(
-                                      text: '${matchList[index].startTime}'),
+                                      text: '${matchList[index].status}'),
                                   Container(
                                     width: 50.0,
                                     height: 50.0,
@@ -111,7 +113,8 @@ class _UpcomingMatchListState extends State<UpcomingMatchList> {
 
   Future<void> getMatchList(BuildContext context) async {
     isLoading = true;
-    matchList = await cricketProvider.getMatchList(context);
+    matchList = await cricketProvider.getMyMatch(
+        context, MatchStatus.UP_COMING_MATCH, '1');
     print(matchList);
     isLoading = false;
     setState(() {});

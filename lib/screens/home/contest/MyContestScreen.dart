@@ -19,8 +19,9 @@ class MyContestScreen extends StatefulWidget {
 }
 
 class _MyContestScreenState extends State<MyContestScreen> {
-  var cricketProvider;
-
+  CricketProvider cricketProvider;
+  List<ContestModel> contestList;
+  SharedPreferences prefs;
   bool isLoading = false;
 
   @override
@@ -86,7 +87,41 @@ class _MyContestScreenState extends State<MyContestScreen> {
                                               '${Constant.IMAGE_URL}${contestList[index].team2Icon}'))),
                                 ),
                               ],
-                            )
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            SizedBox(
+                              height: 1,
+                              child: Container(
+                                color: Colors.blueGrey,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextWidget(
+                                  text: 'Entry ${contestList[index].entryFee}',
+                                ),
+                                TextWidget(
+                                  text: 'Prize ${contestList[index].prize}',
+                                ),
+                                TextWidget(
+                                  text:
+                                      'Maximum Entry ${contestList[index].maxEntry}',
+                                ),
+                                TextWidget(
+                                  text:
+                                      'Winner ${contestList[index].maxWinner}',
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
                           ],
                         ),
                       ),
@@ -95,9 +130,6 @@ class _MyContestScreenState extends State<MyContestScreen> {
                 ),
     );
   }
-
-  List<ContestModel> contestList;
-  SharedPreferences prefs;
 
   Future<void> getMyContestList(BuildContext context, String matchId) async {
     isLoading = true;

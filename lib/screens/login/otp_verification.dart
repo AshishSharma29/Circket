@@ -474,9 +474,8 @@ class _OtpVerificationState extends State<OtpVerification> {
                       setState(() {}),
                       prefs.setString(Constant.LoginResponse,
                           json.encode(value["ResponsePacket"])),
-                      Navigator.of(context).pushNamed(
-                        RouteNames.home,
-                      )
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          RouteNames.home, (route) => false)
                     })
               });
     } catch (ex) {

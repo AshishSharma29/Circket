@@ -2,9 +2,9 @@ import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/MatchModel.dart';
 import 'package:cricquiz11/screens/home/CricketProvider.dart';
+import 'package:cricquiz11/util/MatchStatus.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
-import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +77,7 @@ class _CompletedMatchListState extends State<CompletedMatchList> {
                                           image: NetworkImage(
                                               '${Constant.IMAGE_URL}${matchList[index].team1Icon}'))),
                                 ),
-                                TextWidget(text: 'Completed'),
+                                TextWidget(text: matchList[index].status),
                                 Container(
                                   width: 50.0,
                                   height: 50.0,
@@ -120,7 +120,8 @@ class _CompletedMatchListState extends State<CompletedMatchList> {
 
   Future<void> getCompletedMatchList(BuildContext context) async {
     isLoading = true;
-    matchList = cricketProvider.getCompleteMatch(context);
+    matchList = await cricketProvider.getMyMatch(
+        context, MatchStatus.COMPLETED_MATCH, '1');
     print(matchList);
     isLoading = false;
     setState(() {});
