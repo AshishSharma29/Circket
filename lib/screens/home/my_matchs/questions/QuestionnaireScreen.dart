@@ -1,4 +1,3 @@
-import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/question_list_model.dart';
 import 'package:cricquiz11/screens/home/my_matchs/questions/questions_data.dart';
@@ -24,7 +23,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +36,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         child: FutureBuilder<QuestionListModel>(
           future: _getQuestionList(),
           builder: (context, snapshot) {
-            if(snapshot.data==null) return Center(child: Util().getLoader());
+            if (snapshot.data == null) return Center(child: Util().getLoader());
             return QuestionsData(snapshot.data);
           },
         ),
@@ -54,8 +52,9 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         requestBody: {
           "ContestantId": widget.argument['contestId'],
           "UserId": userModel['Id'].toString()
-        });
-    if (response != null) {
+        }
+        /*{"ContestantId": "11", "UserId": "2"}*/);
+    if (response['ResponsePacket'] != null) {
       print(response['ResponsePacket']);
       var questions = QuestionListModel.fromJson(response['ResponsePacket']);
       return questions;
