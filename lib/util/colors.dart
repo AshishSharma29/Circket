@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'hex_color.dart';
 
 class ColorUtils {
-  static Color  colorPrimary = HexColor("#007965");
-  static Color colorPrimaryDark = HexColor("#007965");
+  static Color  colorPrimary = HexColor("#009846");
+  static Color colorPrimaryDark = HexColor("#009846");
   static Color colorAccent = HexColor("#ef4f4f");
   static Color green = HexColor("#B7D02A");
   static Color white = HexColor("#FFFFFF");
