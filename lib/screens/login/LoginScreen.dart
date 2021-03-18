@@ -1,5 +1,3 @@
-import 'package:cricquiz11/common_widget/ColorLoader.dart';
-import 'package:cricquiz11/common_widget/DotType.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
@@ -7,7 +5,7 @@ import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:cricquiz11/util/util.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 begin: Alignment.bottomCenter,
                 end: Alignment(0.8, 0.0),
                 // 10% of the width, so there are ten blinds.
-                colors: [ColorUtils.colorPrimaryDark, ColorUtils.colorPrimary],
+                colors: [ColorUtils.green, ColorUtils.green, ColorUtils.green],
                 // red to yellow
                 tileMode:
                     TileMode.clamp, // repeats the gradient over the canvas
@@ -57,6 +55,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     maxLength: 15,
                     controller: mobileController,
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
+                        ),
+                      ),
                       counterText: '',
                       hintText: 'Mobile number',
                     ),

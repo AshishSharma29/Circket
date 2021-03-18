@@ -1,11 +1,14 @@
 class ContestJoinResponseModel {
   int _statusCode;
   String _message;
-  Null _responsePacket;
+  ResponsePacket _responsePacket;
   Null _errors;
 
   ContestJoinResponseModel(
-      {int statusCode, String message, Null responsePacket, Null errors}) {
+      {int statusCode,
+      String message,
+      ResponsePacket responsePacket,
+      Null errors}) {
     this._statusCode = statusCode;
     this._message = message;
     this._responsePacket = responsePacket;
@@ -16,15 +19,18 @@ class ContestJoinResponseModel {
   set statusCode(int statusCode) => _statusCode = statusCode;
   String get message => _message;
   set message(String message) => _message = message;
-  Null get responsePacket => _responsePacket;
-  set responsePacket(Null responsePacket) => _responsePacket = responsePacket;
+  ResponsePacket get responsePacket => _responsePacket;
+  set responsePacket(ResponsePacket responsePacket) =>
+      _responsePacket = responsePacket;
   Null get errors => _errors;
   set errors(Null errors) => _errors = errors;
 
   ContestJoinResponseModel.fromJson(Map<String, dynamic> json) {
     _statusCode = json['StatusCode'];
     _message = json['Message'];
-    _responsePacket = json['ResponsePacket'];
+    _responsePacket = json['ResponsePacket'] != null
+        ? new ResponsePacket.fromJson(json['ResponsePacket'])
+        : null;
     _errors = json['Errors'];
   }
 
@@ -32,8 +38,31 @@ class ContestJoinResponseModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['StatusCode'] = this._statusCode;
     data['Message'] = this._message;
-    data['ResponsePacket'] = this._responsePacket;
+    if (this._responsePacket != null) {
+      data['ResponsePacket'] = this._responsePacket.toJson();
+    }
     data['Errors'] = this._errors;
+    return data;
+  }
+}
+
+class ResponsePacket {
+  int _contestantId;
+
+  ResponsePacket({int contestantId}) {
+    this._contestantId = contestantId;
+  }
+
+  int get contestantId => _contestantId;
+  set contestantId(int contestantId) => _contestantId = contestantId;
+
+  ResponsePacket.fromJson(Map<String, dynamic> json) {
+    _contestantId = json['ContestantId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ContestantId'] = this._contestantId;
     return data;
   }
 }

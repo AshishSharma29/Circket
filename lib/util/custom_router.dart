@@ -1,6 +1,5 @@
 import 'package:cricquiz11/screens/home/DashboardScreen.dart';
 import 'package:cricquiz11/screens/home/contest/ContestTabScreen.dart';
-import 'package:cricquiz11/screens/home/home/ContestListScreen.dart';
 import 'package:cricquiz11/screens/home/my_matchs/questions/QuestionnaireScreen.dart';
 import 'package:cricquiz11/screens/login/LoginScreen.dart';
 import 'package:cricquiz11/screens/login/otp_verification.dart';
@@ -34,6 +33,7 @@ class CustomRouter {
         });
       case RouteNames.contest_tab:
         return MaterialPageRoute(builder: (_) {
+          print(settings.arguments);
           var data = settings.arguments as Map<String, String>;
           return ContestTabScreen(data);
         });

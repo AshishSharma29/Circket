@@ -15,7 +15,7 @@ class CricketProvider with ChangeNotifier {
         context: context,
         apiName: ApiConstant.getAllMatch,
         requestBody: {"UserId": '0', "Status": '1', "Page": '1'});
-    if (response != null) {
+    if (response['ResponsePacket'] != null) {
       print(response['ResponsePacket']);
 
       var matchListUpcomingMatch = response['ResponsePacket'] != null
@@ -32,13 +32,14 @@ class CricketProvider with ChangeNotifier {
       BuildContext context, String matchId) async {
     var response = await NetworkUtil.callGetApi(
         context: context, apiName: ApiConstant.getAllContest + '/$matchId');
-    if (response != null) {
+    if (response['ResponsePacket'] != null) {
       print(response['ResponsePacket']);
       contestList = (response['ResponsePacket'] as List)
           .map<ContestModel>((json) => ContestModel.fromJson(json))
           .toList();
       return contestList;
-    }
+    } else
+      return List();
   }
 
   Future<List<ContestModel>> getMyConstestList(
@@ -61,13 +62,13 @@ class CricketProvider with ChangeNotifier {
   }
 
   Future<ContestJoinResponseModel> joinContest(
-      BuildContext context, String matchId) async {
+      BuildContext context, String contestId) async {
     var userModel = await Util.read(Constant.LoginResponse);
     var response = await NetworkUtil.callPostApi(
         context: context,
         apiName: ApiConstant.joinContest,
         requestBody: {
-          'ContestId': matchId,
+          'ContestId': contestId,
           'UserId': userModel['Id'].toString()
         });
     if (response != null) {

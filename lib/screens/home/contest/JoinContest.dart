@@ -174,7 +174,7 @@ class _JoinContestState extends State<JoinContest> {
     Navigator.of(context).pop();
     Navigator.of(context).pop();
     Navigator.of(context).pushNamed(RouteNames.questionnaire, arguments: {
-      'contestId': contestModel.id.toString(),
+      'contestId': response.responsePacket.contestantId.toString(),
       'contestTitle': contestModel.tournamentTitle.toString()
     });
     setState(() {});

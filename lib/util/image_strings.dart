@@ -1,5 +1,4 @@
 //images root
-import 'package:flutter/cupertino.dart';
 
 const String _imagesRoot = 'assets/images/';
 
@@ -7,6 +6,7 @@ const String _imagesRoot = 'assets/images/';
 
 class ImageUtils {
   static String address = _imagesRoot + 'address.png';
+  static String firstWinner = _imagesRoot + 'first_winner.png';
   static String backArrow = _imagesRoot + 'back_arrow.png';
   static String cashOn = _imagesRoot + 'cash_on.png';
   static String check = _imagesRoot + 'check.png';

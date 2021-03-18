@@ -53,7 +53,7 @@ class _RunningMatchListState extends State<RunningMatchList> {
                           .pushNamed(RouteNames.contest_tab, arguments: {
                         'matchId': matchList[index].matchId.toString(),
                         'matchTitle':
-                            matchList[index].tournamentTitle.toString()
+                            matchList[index].tournamentTitle.toString(),
                       });
                     },
                     child: Card(

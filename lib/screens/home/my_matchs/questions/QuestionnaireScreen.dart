@@ -32,13 +32,16 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           color: ColorUtils.white,
         ),
       ),
-      body: Container(
-        child: FutureBuilder<QuestionListModel>(
-          future: _getQuestionList(),
-          builder: (context, snapshot) {
-            if (snapshot.data == null) return Center(child: Util().getLoader());
-            return QuestionsData(snapshot.data);
-          },
+      body: SingleChildScrollView(
+        child: Container(
+          child: FutureBuilder<QuestionListModel>(
+            future: _getQuestionList(),
+            builder: (context, snapshot) {
+              if (snapshot.data == null)
+                return Center(child: Util().getLoader());
+              return QuestionsData(snapshot.data, widget.argument['contestId']);
+            },
+          ),
         ),
       ),
     );

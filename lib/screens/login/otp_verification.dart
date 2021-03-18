@@ -5,6 +5,7 @@ import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
+import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/network_util.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/strings.dart';
@@ -68,11 +69,25 @@ class _OtpVerificationState extends State<OtpVerification> {
     var args = widget.arguments;
     return Container(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-        ),
         body: Stack(
           children: [
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment(0.8, 0.0),
+                  // 10% of the width, so there are ten blinds.
+                  colors: [
+                    ColorUtils.green,
+                    ColorUtils.green,
+                    ColorUtils.green
+                  ],
+                  // red to yellow
+                  tileMode:
+                      TileMode.clamp, // repeats the gradient over the canvas
+                ),
+              ),
+            ),
             SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -80,36 +95,46 @@ class _OtpVerificationState extends State<OtpVerification> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 50,
+                      height: 30,
+                    ),
+                    Image.asset(
+                      ImageUtils.APP_LOGO_BANNER,
+                    ),
+                    SizedBox(
+                      height: 16,
                     ),
                     TextWidget(
                       text: Strings.verification,
-                      textSize: 36,
-                      fontWeight: FontStyles.light,
-                      color: ColorUtils.green,
+                      textSize: 24,
+                      fontWeight: FontStyles.bold,
+                      color: ColorUtils.colorPrimary,
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 16,
                     ),
                     TextWidget(
                       textAlign: TextAlign.center,
                       padding: EdgeInsets.symmetric(horizontal: 40),
-                      text: 'On ${args[Constant.mobileNumber]}',
+                      text:
+                          'code has been sent On ${args[Constant.mobileNumber]}',
                       textSize: 18,
                       fontWeight: FontStyles.regular,
-                      color: ColorUtils.white,
+                      color: ColorUtils.black,
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 24,
                     ),
                     Row(
                       children: [
+                        SizedBox(
+                          width: 20,
+                        ),
                         Expanded(
                           child: TextField(
                             controller: one,
                             focusNode: _focusNode1,
                             maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: TextStyle(color: Colors.white, fontSize: 24),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               counterText: '',
@@ -119,7 +144,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                   : ColorUtils.otpBg,
                               hintStyle: TextStyle(
                                   color: Colors.black.withOpacity(0.15),
-                                  fontSize: 40),
+                                  fontSize: 24),
                               hintText: '0',
                               contentPadding: EdgeInsets.all(10.0),
                               focusedBorder: OutlineInputBorder(
@@ -142,14 +167,14 @@ class _OtpVerificationState extends State<OtpVerification> {
                           ),
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 12,
                         ),
                         Expanded(
                           child: TextField(
                             controller: two,
                             focusNode: _focusNode2,
                             maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: TextStyle(color: Colors.white, fontSize: 24),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               counterText: '',
@@ -159,7 +184,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                   : ColorUtils.otpBg,
                               hintStyle: TextStyle(
                                   color: Colors.black.withOpacity(0.15),
-                                  fontSize: 40),
+                                  fontSize: 24),
                               hintText: '0',
                               contentPadding: EdgeInsets.all(10.0),
                               focusedBorder: OutlineInputBorder(
@@ -184,14 +209,14 @@ class _OtpVerificationState extends State<OtpVerification> {
                           ),
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 12,
                         ),
                         Expanded(
                           child: TextField(
                             controller: three,
                             focusNode: _focusNode3,
                             maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: TextStyle(color: Colors.white, fontSize: 24),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               counterText: '',
@@ -201,7 +226,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                   : ColorUtils.otpBg,
                               hintStyle: TextStyle(
                                   color: Colors.black.withOpacity(0.15),
-                                  fontSize: 40),
+                                  fontSize: 24),
                               hintText: '0',
                               contentPadding: EdgeInsets.all(10.0),
                               focusedBorder: OutlineInputBorder(
@@ -226,14 +251,14 @@ class _OtpVerificationState extends State<OtpVerification> {
                           ),
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 12,
                         ),
                         Expanded(
                           child: TextField(
                             controller: four,
                             focusNode: _focusNode4,
                             maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: TextStyle(color: Colors.white, fontSize: 24),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               counterText: '',
@@ -243,7 +268,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                   : ColorUtils.otpBg,
                               hintStyle: TextStyle(
                                   color: Colors.black.withOpacity(0.15),
-                                  fontSize: 40),
+                                  fontSize: 24),
                               hintText: '0',
                               contentPadding: EdgeInsets.all(10.0),
                               focusedBorder: OutlineInputBorder(
@@ -268,14 +293,14 @@ class _OtpVerificationState extends State<OtpVerification> {
                           ),
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 12,
                         ),
                         Expanded(
                           child: TextField(
                             controller: five,
                             focusNode: _focusNode5,
                             maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: TextStyle(color: Colors.white, fontSize: 24),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               counterText: '',
@@ -285,7 +310,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                   : ColorUtils.otpBg,
                               hintStyle: TextStyle(
                                   color: Colors.black.withOpacity(0.15),
-                                  fontSize: 40),
+                                  fontSize: 24),
                               hintText: '0',
                               contentPadding: EdgeInsets.all(10.0),
                               focusedBorder: OutlineInputBorder(
@@ -310,14 +335,14 @@ class _OtpVerificationState extends State<OtpVerification> {
                           ),
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 12,
                         ),
                         Expanded(
                           child: TextField(
                             controller: six,
                             focusNode: _focusNode6,
                             maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: TextStyle(color: Colors.white, fontSize: 24),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               counterText: '',
@@ -327,7 +352,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                   : ColorUtils.otpBg,
                               hintStyle: TextStyle(
                                   color: Colors.black.withOpacity(0.15),
-                                  fontSize: 40),
+                                  fontSize: 24),
                               hintText: '0',
                               contentPadding: EdgeInsets.all(10.0),
                               focusedBorder: OutlineInputBorder(
@@ -349,17 +374,28 @@ class _OtpVerificationState extends State<OtpVerification> {
                             },
                           ),
                         ),
+                        SizedBox(
+                          width: 20,
+                        ),
                       ],
                     ),
                     SizedBox(
                       height: 16,
                     ),
-                    TextField(
-                      maxLength: 8,
-                      controller: referralController,
-                      decoration: InputDecoration(
-                        counterText: '',
-                        hintText: 'Referral code(Optional)',
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: TextField(
+                        maxLength: 8,
+                        controller: referralController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
+                            ),
+                          ),
+                          counterText: '',
+                          hintText: 'Referral code(Optional)',
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -367,33 +403,39 @@ class _OtpVerificationState extends State<OtpVerification> {
                     ),
                     isLoading
                         ? Util().getLoader()
-                        : RaisedButton(
-                            padding: EdgeInsets.all(12),
-                            onPressed: () {
-                              verifyOtp(
-                                  one.text +
-                                      two.text +
-                                      three.text +
-                                      four.text +
-                                      five.text +
-                                      six.text,
-                                  context,
-                                  '+91' + args[Constant.mobileNumber]);
-                            },
-                            color: ColorUtils.colorPrimary,
-                            child: TextWidget(
-                              color: ColorUtils.white,
-                              text: 'Verify',
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: RaisedButton(
+                                padding: EdgeInsets.all(12),
+                                onPressed: () {
+                                  verifyOtp(
+                                      one.text +
+                                          two.text +
+                                          three.text +
+                                          four.text +
+                                          five.text +
+                                          six.text,
+                                      context,
+                                      '+91' + args[Constant.mobileNumber]);
+                                },
+                                color: ColorUtils.colorPrimary,
+                                child: TextWidget(
+                                  color: ColorUtils.white,
+                                  text: 'Verify',
+                                ),
+                              ),
                             ),
                           ),
                     SizedBox(
-                      height: 40,
+                      height: 16,
                     ),
                     TextWidget(
                       textAlign: TextAlign.center,
                       padding: EdgeInsets.symmetric(horizontal: 40),
                       text: Strings.didNotReceiveCode,
-                      textSize: 18,
+                      textSize: 16,
                       fontWeight: FontStyles.regular,
                       color: ColorUtils.colorPrimary,
                     ),
@@ -406,7 +448,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                         padding: EdgeInsets.symmetric(horizontal: 40),
                         text: Strings.requestAgain,
                         textSize: 18,
-                        fontWeight: FontStyles.regular,
+                        fontWeight: FontStyles.bold,
                         color: ColorUtils.colorPrimary,
                       ),
                     ),

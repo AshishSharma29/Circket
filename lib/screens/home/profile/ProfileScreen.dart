@@ -36,32 +36,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     height: 16,
                   ),
-                  TextWidget(
-                    textAlign: TextAlign.center,
-                    textSize: 24,
-                    text: loginResponse == null
-                        ? ''
-                        : 'Coins : ${loginResponse.balance}',
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  TextWidget(
-                    textAlign: TextAlign.center,
-                    textSize: 24,
-                    text: loginResponse == null
-                        ? ''
-                        : 'Referral code : ${loginResponse.referralCode}',
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  InkWell(
-                    child: Icon(Icons.share),
-                    onTap: () {
-                      Share.share(
-                          'download and install this app using ${loginResponse.referralCode} referral code and get 100 coins');
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextWidget(
+                        textAlign: TextAlign.center,
+                        textSize: 24,
+                        text: loginResponse == null
+                            ? ''
+                            : '${loginResponse.balance}',
+                      ),
+                      Row(
+                        children: [
+                          TextWidget(
+                            textAlign: TextAlign.center,
+                            textSize: 24,
+                            text: loginResponse == null
+                                ? ''
+                                : '${loginResponse.referralCode}',
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          InkWell(
+                            child: Icon(Icons.share),
+                            onTap: () {
+                              Share.share(
+                                  'download and install this app using ${loginResponse.referralCode} referral code and get 100 coins');
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 16,
@@ -72,6 +78,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ..text = loginResponse.name,
                     enabled: _isEditable,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.account_circle_rounded,
+                        color: ColorUtils.colorPrimary,
+                      ),
                       counterText: '',
                       labelText: Strings.name,
                       hintText: Strings.name,
@@ -89,6 +99,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     enabled: _isEditable,
                     maxLength: 50,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.email_rounded,
+                        color: ColorUtils.colorPrimary,
+                      ),
                       counterText: '',
                       labelText: Strings.email,
                       hintText: Strings.email,
@@ -106,6 +120,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     maxLength: 15,
                     enabled: false,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.phone_android_rounded,
+                        color: ColorUtils.colorPrimary,
+                      ),
                       counterText: '',
                       labelText: Strings.mobileNumber,
                       hintText: Strings.mobileNumber,

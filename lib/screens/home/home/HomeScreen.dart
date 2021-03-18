@@ -49,45 +49,80 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.of(context)
                             .pushNamed(RouteNames.contest_tab, arguments: {
                           'matchId': matchList[index].matchId.toString(),
-                          'matchTitle': matchList[index].matchTitle.toString()
+                          'matchTitle':
+                              matchList[index].tournamentTitle.toString()
                         });
                       },
                       child: Card(
                         child: Container(
                           padding: EdgeInsets.all(16),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextWidget(
+                                textAlign: TextAlign.start,
                                 text: '${matchList[index].tournamentTitle}',
                                 color: ColorUtils.green,
-                                textSize: 18,
+                                textSize: 16,
                                 fontWeight: FontStyles.bold,
+                              ),
+                              SizedBox(
+                                height: 12,
                               ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    width: 50.0,
-                                    height: 50.0,
-                                    decoration: new BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                '${Constant.IMAGE_URL}${matchList[index].team1Icon}'))),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        decoration: new BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    '${Constant.IMAGE_URL}${matchList[index].team1Icon}'))),
+                                      ),
+                                      SizedBox(
+                                        width: 16,
+                                      ),
+                                      TextWidget(
+                                        text: '${matchList[index].team1Title}',
+                                        color: ColorUtils.black,
+                                        textSize: 12,
+                                        fontWeight: FontStyles.bold,
+                                      ),
+                                    ],
                                   ),
                                   TextWidget(
-                                      text: '${matchList[index].status}'),
-                                  Container(
-                                    width: 50.0,
-                                    height: 50.0,
-                                    decoration: new BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                '${Constant.IMAGE_URL}${matchList[index].team2Icon}'))),
+                                    text: '${matchList[index].status}',
+                                    color: ColorUtils.colorPrimary,
+                                    fontWeight: FontStyles.bold,
+                                  ),
+                                  Row(
+                                    children: [
+                                      TextWidget(
+                                        text: '${matchList[index].team2Title}',
+                                        color: ColorUtils.black,
+                                        textSize: 12,
+                                        fontWeight: FontStyles.bold,
+                                      ),
+                                      SizedBox(
+                                        width: 16,
+                                      ),
+                                      Container(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        decoration: new BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    '${Constant.IMAGE_URL}${matchList[index].team2Icon}'))),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               )

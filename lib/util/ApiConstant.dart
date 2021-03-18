@@ -9,4 +9,6 @@ class ApiConstant {
 
   static const getDetails = 'Api/User/GetDetails';
   static const getAllQuestions = 'Api/Question/GetAll';
+
+  static var updateAnswer = 'Api/Question/UpdateAnswer';
 }

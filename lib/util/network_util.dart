@@ -46,9 +46,10 @@ class NetworkUtil {
       final response = await http.post(Constant.BASE_URL + apiName,
           headers: {
             'apikey': '69d4c80b7301fbd05fce00c75f262cf4',
-            'token': token
+            'token': token,
+            'Content-type': 'application/json'
           },
-          body: requestBody);
+          body: utf8.encode(json.encode(requestBody)));
       print(response.body);
       return jsonDecode(response.body);
     } else {

@@ -7,8 +7,8 @@ class Strings {
 
   static var didNotReceiveCode = 'Didn\'t receive code?';
 
-  static var requestAgain = 'request again';
-
+  static var requestAgain = 'Request again';
+  static var rupees = '₹';
   static var home = 'Home';
 
   static String emptyPhoneNumberValidation = 'Please enter phone number.';
@@ -38,7 +38,7 @@ class Strings {
   static String yes = 'Yes';
   static String no = 'No';
 
-  static String appName='CricQuiz11';
+  static String appName = 'CricQuiz11';
 
-  static String ok='Ok';
+  static String ok = 'Ok';
 }
