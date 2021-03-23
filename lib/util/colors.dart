@@ -10,6 +10,7 @@ class ColorUtils {
   static Color white = HexColor("#FFFFFF");
   static Color lightGrey = HexColor("#E9E9E7");
   static Color darkGrey = HexColor("#D2D2D2");
+  static Color darkerGrey = HexColor("#808080");
   static Color black = HexColor("#000000");
   static Color otpBg = HexColor("#B7D02A");
   static Color otpBgInactive = HexColor("#F3F0EB");

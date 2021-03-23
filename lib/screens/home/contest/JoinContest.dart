@@ -3,7 +3,9 @@ import 'package:cricquiz11/model/LoginResponseModel.dart';
 import 'package:cricquiz11/screens/home/CricketProvider.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
+import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/route_name.dart';
+import 'package:cricquiz11/util/strings.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -55,82 +57,118 @@ class _JoinContestState extends State<JoinContest> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    Strings.confirmation,
+                    style: TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                  Icon(
+                    Icons.close,
+                    color: ColorUtils.darkerGrey,
+                    size: 20,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    Strings.balance,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: ColorUtils.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  loginResponseModel == null
+                      ? CircularProgressIndicator()
+                      : Row(
+                          children: [
+                            Text(
+                              (loginResponseModel.balance -
+                                      widget.contestModel.entryFee)
+                                  .ceil()
+                                  .toString(),
+                              style: TextStyle(fontSize: 14),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Image.asset(
+                              ImageUtils.coin,
+                              height: 15,
+                              width: 15,
+                            )
+                          ],
+                        ),
+                ],
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    Strings.entry,
+                    style: TextStyle(fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.contestModel.entryFee.ceil().toString(),
+                        style: TextStyle(fontSize: 14),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Image.asset(
+                        ImageUtils.coin,
+                        height: 15,
+                        width: 15,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Divider(
+                height: 2,
+                color: ColorUtils.darkerGrey,
+              ),
+              SizedBox(
+                height: 16,
+              ),
               Text(
-                'Confirmation',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                'By joining the contest you accept Cricquiz11 T&C.',
+                style: TextStyle(fontSize: 10),
+                textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Available coins',
-                    style: TextStyle(fontSize: 14),
-                    textAlign: TextAlign.center,
-                  ),
-                  loginResponseModel == null
-                      ? CircularProgressIndicator()
-                      : Text(
-                          loginResponseModel.balance.toString(),
-                          style: TextStyle(fontSize: 14),
-                          textAlign: TextAlign.center,
-                        ),
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Required coins',
-                    style: TextStyle(fontSize: 14),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    widget.contestModel.entryFee.toString(),
-                    style: TextStyle(fontSize: 14),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Remaining',
-                    style: TextStyle(fontSize: 14),
-                    textAlign: TextAlign.center,
-                  ),
-                  loginResponseModel == null
-                      ? CircularProgressIndicator()
-                      : Text(
-                          (loginResponseModel.balance -
-                                  widget.contestModel.entryFee)
-                              .toString(),
-                          style: TextStyle(fontSize: 14),
-                          textAlign: TextAlign.center,
-                        ),
-                ],
-              ),
-              SizedBox(
-                height: 16,
+                height: 8,
               ),
               Align(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.center,
                 child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(4.0)),
                     color: ColorUtils.colorPrimary,
                     onPressed: () {
                       joinContest(context, widget.contestModel);
                     },
                     child: Text(
-                      'Start',
+                      'Join now',
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     )),
               ),

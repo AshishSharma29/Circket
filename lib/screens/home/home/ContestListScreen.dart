@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/ContestModel.dart';
 import 'package:cricquiz11/model/LoginResponseModel.dart';
@@ -59,71 +58,67 @@ class _ContestListScreenState extends State<ContestListScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                       child: Container(
-                        padding: EdgeInsets.all(16),
+                        padding: EdgeInsets.only(
+                            top: 8, bottom: 8, right: 8, left: 8),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 TextWidget(
-                                  text: '${contestList[index].matchTitle}',
-                                  color: ColorUtils.green,
-                                  textSize: 16,
-                                  fontWeight: FontStyles.bold,
+                                  text: 'Prize',
+                                  color: ColorUtils.darkerGrey,
+                                  textSize: 14,
                                 ),
                                 Row(
                                   children: [
-                                    Image.asset(
-                                      ImageUtils.firstWinner,
-                                      height: 20,
-                                      width: 20,
+                                    TextWidget(
+                                      textSize: 14,
+                                      text: contestList[index]
+                                          .entryFee
+                                          .ceil()
+                                          .toString(),
+                                      color: ColorUtils.darkerGrey,
+                                      textAlign: TextAlign.start,
                                     ),
                                     SizedBox(
                                       width: 4,
                                     ),
-                                    TextWidget(
-                                      color: ColorUtils.redLogo,
-                                      text:
-                                          '${contestList[index].prize.ceil()}',
+                                    Image.asset(
+                                      ImageUtils.coin,
+                                      height: 15,
+                                      width: 15,
                                     ),
                                   ],
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 16,
-                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  width: 50.0,
-                                  height: 50.0,
-                                  decoration: new BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: new DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              '${Constant.IMAGE_URL}${contestList[index].team1Icon}'))),
-                                ),
-                                TextWidget(
-                                    text:
-                                        '${contestList[index].startTime.replaceAll("T", ' ')}'),
-                                Container(
-                                  width: 50.0,
-                                  height: 50.0,
-                                  decoration: new BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: new DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              '${Constant.IMAGE_URL}${contestList[index].team2Icon}'))),
-                                ),
+                                Row(children: [
+                                  TextWidget(
+                                    color: ColorUtils.black,
+                                    textSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    text: '${contestList[index].prize.ceil()}',
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Image.asset(
+                                    ImageUtils.coin,
+                                    height: 15,
+                                    width: 15,
+                                  ),
+                                ]),
                                 if (loginResponse.balance != null &&
                                     contestList[index].entryFee <=
                                         loginResponse.balance)
                                   RaisedButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(8.0)),
                                       color: ColorUtils.colorPrimary,
                                       onPressed: () {
                                         showDialog(
@@ -134,27 +129,37 @@ class _ContestListScreenState extends State<ContestListScreen> {
                                             });
                                       },
                                       child: TextWidget(
-                                        text: contestList[index]
-                                            .entryFee
-                                            .ceil()
-                                            .toString(),
+                                        textSize: 14,
+                                        text: 'Join',
                                         color: ColorUtils.white,
                                       ))
                                 else
-                                  RaisedButton(
-                                      color: ColorUtils.redLogo,
-                                      onPressed: () {},
-                                      child: TextWidget(
-                                        text: contestList[index]
-                                            .entryFee
-                                            .ceil()
-                                            .toString(),
-                                        color: ColorUtils.white,
-                                      ))
+                                  Column(
+                                    children: [
+                                      RaisedButton(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      8.0)),
+                                          color: ColorUtils.redLogo,
+                                          onPressed: () {},
+                                          child: TextWidget(
+                                            textSize: 14,
+                                            text: contestList[index]
+                                                .entryFee
+                                                .ceil()
+                                                .toString(),
+                                            color: ColorUtils.white,
+                                          )),
+                                      ElevatedButton(
+                                          onPressed: () {},
+                                          child: TextWidget(
+                                            textSize: 14,
+                                            text: 'Earn more',
+                                          ))
+                                    ],
+                                  )
                               ],
-                            ),
-                            SizedBox(
-                              height: 8,
                             ),
                           ],
                         ),

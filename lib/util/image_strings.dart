@@ -8,6 +8,8 @@ class ImageUtils {
   static String address = _imagesRoot + 'address.png';
   static String firstWinner = _imagesRoot + 'first_winner.png';
   static String backArrow = _imagesRoot + 'back_arrow.png';
+  static String cricket = _imagesRoot + 'cricket.png';
+  static String coin = _imagesRoot + 'coin.png';
   static String cashOn = _imagesRoot + 'cash_on.png';
   static String check = _imagesRoot + 'check.png';
   static String circleCheck = _imagesRoot + 'circle_check.png';

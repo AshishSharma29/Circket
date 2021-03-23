@@ -1,9 +1,9 @@
-import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/ContestModel.dart';
 import 'package:cricquiz11/screens/home/CricketProvider.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
+import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/material.dart';
@@ -50,93 +50,87 @@ class _MyContestScreenState extends State<MyContestScreen> {
                   padding: const EdgeInsets.all(8),
                   itemCount: contestList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed(RouteNames.questionnaire, arguments: {
-                          'contestId': contestList[index].id.toString(),
-                          'contestTitle':
-                              contestList[index].tournamentTitle.toString()
-                        });
-                      },
-                      child: Card(
-                        child: Container(
-                          padding: EdgeInsets.all(16),
-                          child: Column(
-                            children: [
-                              TextWidget(
-                                text: '${contestList[index].matchTitle}',
-                                color: ColorUtils.green,
-                                textSize: 18,
-                                fontWeight: FontStyles.bold,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    width: 50.0,
-                                    height: 50.0,
-                                    decoration: new BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                '${Constant.IMAGE_URL}${contestList[index].team1Icon}'))),
-                                  ),
-                                  TextWidget(
-                                      text:
-                                          '${contestList[index].startTime.replaceAll("T", ' ')}'),
-                                  Container(
-                                    width: 50.0,
-                                    height: 50.0,
-                                    decoration: new BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                '${Constant.IMAGE_URL}${contestList[index].team2Icon}'))),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              SizedBox(
-                                height: 1,
-                                child: Container(
-                                  color: Colors.blueGrey,
+                    return Card(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            top: 8, bottom: 8, right: 8, left: 8),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextWidget(
+                                  text: 'Prize',
+                                  color: ColorUtils.darkerGrey,
+                                  textSize: 14,
                                 ),
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
+                                Row(
+                                  children: [
+                                    TextWidget(
+                                      textSize: 14,
+                                      text: contestList[index]
+                                          .entryFee
+                                          .ceil()
+                                          .toString(),
+                                      color: ColorUtils.darkerGrey,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Image.asset(
+                                      ImageUtils.coin,
+                                      height: 15,
+                                      width: 15,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(children: [
                                   TextWidget(
-                                    text:
-                                        'Entry ${contestList[index].entryFee}',
+                                    color: ColorUtils.black,
+                                    textSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    text: '${contestList[index].prize.ceil()}',
                                   ),
-                                  TextWidget(
-                                    text: 'Prize ${contestList[index].prize}',
+                                  SizedBox(
+                                    width: 4,
                                   ),
-                                  TextWidget(
-                                    text:
-                                        'Maximum Entry ${contestList[index].maxEntry}',
+                                  Image.asset(
+                                    ImageUtils.coin,
+                                    height: 15,
+                                    width: 15,
                                   ),
-                                  TextWidget(
-                                    text:
-                                        'Winner ${contestList[index].maxWinner}',
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                            ],
-                          ),
+                                ]),
+                                RaisedButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(8.0)),
+                                    color: ColorUtils.colorPrimary,
+                                    onPressed: () {
+                                      Navigator.of(context).pushNamed(
+                                          RouteNames.questionnaire,
+                                          arguments: {
+                                            'contestId': contestList[index]
+                                                .id
+                                                .toString(),
+                                            'contestTitle': contestList[index]
+                                                .matchTitle
+                                                .toString()
+                                          });
+                                    },
+                                    child: TextWidget(
+                                      textSize: 14,
+                                      text: 'View',
+                                      color: ColorUtils.white,
+                                    ))
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     );

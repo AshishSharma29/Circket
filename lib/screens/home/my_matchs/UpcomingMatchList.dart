@@ -1,8 +1,7 @@
-import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/MatchModel.dart';
+import 'package:cricquiz11/screens/home/my_matchs/match_row_common.dart';
 import 'package:cricquiz11/util/MatchStatus.dart';
-import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/util.dart';
@@ -60,49 +59,7 @@ class _UpcomingMatchListState extends State<UpcomingMatchList> {
                               matchList[index].tournamentTitle.toString(),
                         });
                       },
-                      child: Card(
-                        child: Container(
-                          padding: EdgeInsets.all(16),
-                          child: Column(
-                            children: [
-                              TextWidget(
-                                text: '${matchList[index].tournamentTitle}',
-                                color: ColorUtils.green,
-                                textSize: 18,
-                                fontWeight: FontStyles.bold,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    width: 50.0,
-                                    height: 50.0,
-                                    decoration: new BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                '${Constant.IMAGE_URL}${matchList[index].team1Icon}'))),
-                                  ),
-                                  TextWidget(
-                                      text: '${matchList[index].status}'),
-                                  Container(
-                                    width: 50.0,
-                                    height: 50.0,
-                                    decoration: new BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: new DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                                '${Constant.IMAGE_URL}${matchList[index].team2Icon}'))),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: MatchRowCommon(match: matchList[index]),
                     );
                   },
                 ),

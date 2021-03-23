@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MyAppPhoneVerification extends StatefulWidget {
-
   @override
   _MyAppPhoneVerificationState createState() => _MyAppPhoneVerificationState();
 }
 
 class _MyAppPhoneVerificationState extends State<MyAppPhoneVerification> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -111,8 +109,8 @@ class _MyAppPageState extends State<MyAppPage> {
                 onPressed: () {
                   if (_auth.currentUser != null) {
                     Navigator.of(context).pop();
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil(RouteNames.home, (route) => false);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        RouteNames.home, (route) => false);
                   } else {
                     signIn();
                   }
@@ -125,13 +123,12 @@ class _MyAppPageState extends State<MyAppPage> {
 
   signIn() async {
     try {
-      final AuthCredential credential = PhoneAuthProvider.getCredential(
+      final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: smsOTP,
       );
-      final FirebaseUser user =
-          (await _auth.signInWithCredential(credential)) as FirebaseUser;
-      final FirebaseUser currentUser = _auth.currentUser;
+      final User user = (await _auth.signInWithCredential(credential)) as User;
+      final User currentUser = _auth.currentUser;
       assert(user.uid == currentUser.uid);
       Navigator.of(context).pop();
       Navigator.of(context).pushReplacementNamed('/homepage');

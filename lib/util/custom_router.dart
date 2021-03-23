@@ -1,6 +1,10 @@
 import 'package:cricquiz11/screens/home/DashboardScreen.dart';
 import 'package:cricquiz11/screens/home/contest/ContestTabScreen.dart';
 import 'package:cricquiz11/screens/home/my_matchs/questions/QuestionnaireScreen.dart';
+import 'package:cricquiz11/screens/home/profile/CoinHistory.dart';
+import 'package:cricquiz11/screens/home/profile/InstructionToPlay.dart';
+import 'package:cricquiz11/screens/home/profile/account_verification.dart';
+import 'package:cricquiz11/screens/home/profile/withdraw.dart';
 import 'package:cricquiz11/screens/login/LoginScreen.dart';
 import 'package:cricquiz11/screens/login/otp_verification.dart';
 import 'package:cricquiz11/util/route_name.dart';
@@ -36,6 +40,24 @@ class CustomRouter {
           print(settings.arguments);
           var data = settings.arguments as Map<String, String>;
           return ContestTabScreen(data);
+        });
+      case RouteNames.coin_history:
+        return MaterialPageRoute(builder: (_) {
+          print(settings.arguments);
+          var data = settings.arguments as Map<String, String>;
+          return CoinHistory(data);
+        });
+      case RouteNames.instruction_to_play:
+        return MaterialPageRoute(builder: (_) {
+          return InstructionToPlay();
+        });
+      case RouteNames.withdraw:
+        return MaterialPageRoute(builder: (_) {
+          return Withdraw();
+        });
+      case RouteNames.accountVerification:
+        return MaterialPageRoute(builder: (_) {
+          return AccountVerification();
         });
       default:
         return MaterialPageRoute(

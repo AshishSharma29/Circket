@@ -27,7 +27,7 @@ class Strings {
 
   static var mobileNumber = 'Mobile Number';
 
-  static var submit = 'submit';
+  static var submit = 'Submit';
 
   static var edit = 'Edit';
 
@@ -41,4 +41,29 @@ class Strings {
   static String appName = 'CricQuiz11';
 
   static String ok = 'Ok';
+
+  static var coinHistory = 'Coins History';
+
+  static var instructionToEarn = 'Instruction to earn';
+  static var earnMore = 'Earn more';
+
+  static const withdraw = 'Withdraw';
+
+  static const redeemCoins = 'Redeem coins';
+
+  static String confirmation = 'CONFIRMATION';
+
+  static String entry = 'Entry';
+
+  static String toPay = 'To Pay';
+
+  static String balance = 'Balance';
+
+  static String question = 'Question';
+
+  static var addKycDocument = 'Add KYC data';
+
+  static var accountHolderName = 'Account holder name';
+
+  static var accountNumber = 'Account number';
 }

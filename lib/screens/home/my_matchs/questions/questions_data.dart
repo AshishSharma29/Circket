@@ -6,6 +6,7 @@ import 'package:cricquiz11/model/update_answer_model.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/network_util.dart';
+import 'package:cricquiz11/util/strings.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,13 +32,21 @@ class _QuestionsDataState extends State<QuestionsData> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          width: double.infinity,
           margin: EdgeInsets.all(10),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
+                Strings.question,
+                style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.start,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
                 widget.questionListModel.questions[_questionIndex].title,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 14),
                 textAlign: TextAlign.start,
               ),
               SizedBox(

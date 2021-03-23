@@ -1,8 +1,10 @@
-import 'package:cricquiz11/common_widget/font_style.dart';
+import 'dart:io';
+
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/MatchModel.dart';
 import 'package:cricquiz11/screens/home/CricketProvider.dart';
-import 'package:cricquiz11/util/colors.dart';
+import 'package:cricquiz11/screens/home/my_matchs/match_row_common.dart';
 import 'package:cricquiz11/util/constant.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/util.dart';
@@ -16,14 +18,98 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   CricketProvider cricketProvider;
+  GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
 
   bool isLoading = false;
+  AdmobReward rewardAd;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     isLoading = true;
+    autherization();
+  }
+
+  void autherization() async {
+    if (Platform.isIOS) await Admob.requestTrackingAuthorization();
+    rewardAd = AdmobReward(
+      adUnitId: getRewardBasedVideoAdUnitId(),
+      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        if (event == AdmobAdEvent.closed) rewardAd.load();
+        handleEvent(event, args, 'Reward');
+      },
+    );
+
+    rewardAd.load();
+  }
+
+  void showSnackBar(String content) {
+    scaffoldState.currentState.showSnackBar(
+      SnackBar(
+        content: Text(content),
+        duration: Duration(milliseconds: 1500),
+      ),
+    );
+  }
+
+  void handleEvent(
+      AdmobAdEvent event, Map<String, dynamic> args, String adType) {
+    switch (event) {
+      case AdmobAdEvent.loaded:
+        showSnackBar('New Admob $adType Ad loaded!');
+        break;
+      case AdmobAdEvent.opened:
+        showSnackBar('Admob $adType Ad opened!');
+        break;
+      case AdmobAdEvent.closed:
+        showSnackBar('Admob $adType Ad closed!');
+        break;
+      case AdmobAdEvent.failedToLoad:
+        showSnackBar('Admob $adType failed to load. :(');
+        break;
+      case AdmobAdEvent.rewarded:
+        showDialog(
+          context: scaffoldState.currentContext,
+          builder: (BuildContext context) {
+            return WillPopScope(
+              child: AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text('Reward callback fired. Thanks Andrew!'),
+                    Text('Type: ${args['type']}'),
+                    Text('Amount: ${args['amount']}'),
+                  ],
+                ),
+              ),
+              onWillPop: () async {
+                scaffoldState.currentState.hideCurrentSnackBar();
+                return true;
+              },
+            );
+          },
+        );
+        break;
+      default:
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    rewardAd.dispose();
+  }
+
+  String getRewardBasedVideoAdUnitId() {
+    if (Platform.isIOS) {
+      // return 'ca-app-pub-3940256099942544/1712485313';
+      return 'ca-app-pub-3940256099942544/5224354917';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-5307290955516221/9987431770';
+    }
+    return null;
   }
 
   @override
@@ -53,83 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               matchList[index].tournamentTitle.toString()
                         });
                       },
-                      child: Card(
-                        child: Container(
-                          padding: EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextWidget(
-                                textAlign: TextAlign.start,
-                                text: '${matchList[index].tournamentTitle}',
-                                color: ColorUtils.green,
-                                textSize: 16,
-                                fontWeight: FontStyles.bold,
-                              ),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 50.0,
-                                        height: 50.0,
-                                        decoration: new BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(
-                                                    '${Constant.IMAGE_URL}${matchList[index].team1Icon}'))),
-                                      ),
-                                      SizedBox(
-                                        width: 16,
-                                      ),
-                                      TextWidget(
-                                        text: '${matchList[index].team1Title}',
-                                        color: ColorUtils.black,
-                                        textSize: 12,
-                                        fontWeight: FontStyles.bold,
-                                      ),
-                                    ],
-                                  ),
-                                  TextWidget(
-                                    text: '${matchList[index].status}',
-                                    color: ColorUtils.colorPrimary,
-                                    fontWeight: FontStyles.bold,
-                                  ),
-                                  Row(
-                                    children: [
-                                      TextWidget(
-                                        text: '${matchList[index].team2Title}',
-                                        color: ColorUtils.black,
-                                        textSize: 12,
-                                        fontWeight: FontStyles.bold,
-                                      ),
-                                      SizedBox(
-                                        width: 16,
-                                      ),
-                                      Container(
-                                        width: 50.0,
-                                        height: 50.0,
-                                        decoration: new BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(
-                                                    '${Constant.IMAGE_URL}${matchList[index].team2Icon}'))),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: MatchRowCommon(match: matchList[index]),
                     );
                   },
                 ),

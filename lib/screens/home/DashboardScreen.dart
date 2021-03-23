@@ -57,7 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         unselectedItemColor: ColorUtils.colorPrimary,
-        selectedItemColor: ColorUtils.green,
+        selectedItemColor: ColorUtils.colorAccent,
         currentIndex: _currentIndex,
         // this will be set when a new tab is tapped
         onTap: _onTapped,
@@ -72,9 +72,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.person), title: Text(Strings.profile)),
-          BottomNavigationBarItem(
+          /*BottomNavigationBarItem(
               icon: Icon(Icons.notifications),
-              title: Text(Strings.notification))
+              title: Text(Strings.notification))*/
         ],
       ),
     );
@@ -116,7 +116,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             FlatButton(
               child: Text(Strings.yes),
               onPressed: () {
-                prefs.setString(Constant.LoginResponse, null);
+                prefs.setString(Constant.LoginResponse, '');
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     RouteNames.login, (route) => false);
               },
@@ -134,7 +134,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void _openQuestion(BuildContext context) {
-    Navigator.of(context)
-        .pushNamed(RouteNames.questionnaire);
+    Navigator.of(context).pushNamed(RouteNames.questionnaire);
   }
 }

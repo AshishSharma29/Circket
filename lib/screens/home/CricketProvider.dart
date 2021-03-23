@@ -1,6 +1,7 @@
 import 'package:cricquiz11/model/ContestModel.dart';
 import 'package:cricquiz11/model/MatchModel.dart';
 import 'package:cricquiz11/model/contest_join_response.dart';
+import 'package:cricquiz11/model/transaction_history_model.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
 import 'package:cricquiz11/util/constant.dart';
 import 'package:cricquiz11/util/network_util.dart';
@@ -94,5 +95,23 @@ class CricketProvider with ChangeNotifier {
             .toList()
         : List();
     return matchListUpcomingMatch;
+  }
+
+  Future<List<TransactionHistoryModel>> getTransactionHistory(
+      BuildContext context) async {
+    var userModel = await Util.read(Constant.LoginResponse);
+    var response = await NetworkUtil.callGetApi(
+      context: context,
+      apiName: ApiConstant.transactionHistory + userModel['Id'].toString(),
+    );
+
+    List<TransactionHistoryModel> transactionModel =
+        response['ResponsePacket'] != null
+            ? (response['ResponsePacket'] as List)
+                .map<TransactionHistoryModel>(
+                    (json) => TransactionHistoryModel.fromJson(json))
+                .toList()
+            : List();
+    return transactionModel;
   }
 }

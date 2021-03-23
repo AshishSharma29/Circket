@@ -17,7 +17,7 @@ class NetworkUtil {
       final prefs = await SharedPreferences.getInstance();
       String token = prefs.getString(Constant.TOKEN);
       final response = await http.get(
-        Constant.BASE_URL + apiName,
+        Uri.parse(Constant.BASE_URL + apiName),
         headers: {'apikey': '69d4c80b7301fbd05fce00c75f262cf4', 'token': token},
       );
       return jsonDecode(response.body);
@@ -43,7 +43,7 @@ class NetworkUtil {
     if (isNetActive) {
       final prefs = await SharedPreferences.getInstance();
       String token = prefs.getString(Constant.TOKEN);
-      final response = await http.post(Constant.BASE_URL + apiName,
+      final response = await http.post(Uri.parse(Constant.BASE_URL + apiName),
           headers: {
             'apikey': '69d4c80b7301fbd05fce00c75f262cf4',
             'token': token,

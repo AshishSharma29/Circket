@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "138061634031-2eg6b8iqgoemtr664kngfu688ql7bidr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cricquiz11",
+            "certificate_hash": "34168a7877e22cfc18dcf6ce4d680b26caad896f"
+          }
+        },
+        {
+          "client_id": "138061634031-379pl6ummh5d46f95okctsc2l79eot0u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cricquiz11",
+            "certificate_hash": "966592d2702640a96bf41f5ce27ad1f76b43ddd3"
+          }
+        },
+        {
           "client_id": "138061634031-4ccd97v6srl59mdrigeg66bgvvt193td.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -30,10 +46,18 @@
             {
               "client_id": "138061634031-4ccd97v6srl59mdrigeg66bgvvt193td.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "138061634031-ep0mhdh075e79n0a0fphjhmiv457nvsg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cricquiz11"
+              }
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-5307290955516221~9098496711"
     },
     {
       "client_info": {
@@ -67,6 +91,13 @@
             {
               "client_id": "138061634031-4ccd97v6srl59mdrigeg66bgvvt193td.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "138061634031-ep0mhdh075e79n0a0fphjhmiv457nvsg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cricquiz11"
+              }
             }
           ]
         }
