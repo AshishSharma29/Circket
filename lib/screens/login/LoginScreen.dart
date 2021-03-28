@@ -21,19 +21,15 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment(0.8, 0.0),
-                // 10% of the width, so there are ten blinds.
-                colors: [ColorUtils.green, ColorUtils.green, ColorUtils.green],
-                // red to yellow
-                tileMode:
-                    TileMode.clamp, // repeats the gradient over the canvas
-              ),
+          /*Container(
+            child: Image.asset(
+              ImageUtils.greenBg,
+              fit: BoxFit.cover,
+              height: double.infinity,
+              width: double.infinity,
+              alignment: Alignment.center,
             ),
-          ),
+          ),*/
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: GestureDetector(
@@ -56,10 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: mobileController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5),
-                        ),
-                      ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5),
+                          ),
+                          borderSide:
+                              BorderSide(color: ColorUtils.colorAccent)),
                       counterText: '',
                       hintText: 'Mobile number',
                     ),
@@ -82,10 +79,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           Constant.mobileNumber: mobileController.text
                         });
                     },
-                    color: ColorUtils.colorPrimary,
+                    color: ColorUtils.colorAccent,
                     child: TextWidget(
                       color: ColorUtils.white,
                       text: 'Login',
+                      textSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(

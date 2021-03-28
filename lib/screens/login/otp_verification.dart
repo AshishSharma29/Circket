@@ -71,7 +71,7 @@ class _OtpVerificationState extends State<OtpVerification> {
       child: Scaffold(
         body: Stack(
           children: [
-            Container(
+/*            Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
@@ -87,7 +87,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                       TileMode.clamp, // repeats the gradient over the canvas
                 ),
               ),
-            ),
+            ),*/
             SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -420,10 +420,12 @@ class _OtpVerificationState extends State<OtpVerification> {
                                       context,
                                       '+91' + args[Constant.mobileNumber]);
                                 },
-                                color: ColorUtils.colorPrimary,
+                                color: ColorUtils.colorAccent,
                                 child: TextWidget(
                                   color: ColorUtils.white,
                                   text: 'Verify',
+                                  textSize: 14,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),

@@ -57,6 +57,7 @@ class _UpcomingMatchListState extends State<UpcomingMatchList> {
                           'matchId': matchList[index].matchId.toString(),
                           'matchTitle':
                               matchList[index].tournamentTitle.toString(),
+                          'isUpcoming': true
                         });
                       },
                       child: MatchRowCommon(match: matchList[index]),

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cricquiz11/common_widget/text_widget.dart';
+import 'package:cricquiz11/model/LoginResponseModel.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
@@ -7,6 +10,7 @@ import 'package:cricquiz11/util/network_util.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Withdraw extends StatefulWidget {
   @override
@@ -15,6 +19,15 @@ class Withdraw extends StatefulWidget {
 
 class _WithdrawState extends State<Withdraw> {
   String amount;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      getUserData(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +64,9 @@ class _WithdrawState extends State<Withdraw> {
                     ),
                     TextWidget(
                       textAlign: TextAlign.center,
-                      text: '1000',
+                      text: loginResponse == null
+                          ? ''
+                          : loginResponse.balance.ceil().toString(),
                       color: ColorUtils.colorPrimary,
                       textSize: 24,
                     ),
@@ -112,5 +127,27 @@ class _WithdrawState extends State<Withdraw> {
           "UserId": userModel['Id'].toString(),
           "Amount": amount,
         });
+    Util.showValidationdialog(
+        context, 'Redeem request submitted successfully.');
+  }
+
+  SharedPreferences prefs;
+  LoginResponseModel loginResponse;
+
+  Future<void> getUserData(BuildContext context) async {
+    prefs = await SharedPreferences.getInstance();
+    var user = await Util.read(Constant.LoginResponse);
+    loginResponse = LoginResponseModel.fromJson(user);
+    var response = await NetworkUtil.callGetApi(
+      context: context,
+      apiName: ApiConstant.getDetails + '?userId=${loginResponse.id}',
+    );
+    print(response);
+    if (json.encode(response["ResponsePacket"]) != 'null') {
+      prefs.setString(
+          Constant.LoginResponse, json.encode(response["ResponsePacket"]));
+      loginResponse = LoginResponseModel.fromJson(response["ResponsePacket"]);
+      setState(() {});
+    }
   }
 }

@@ -89,7 +89,7 @@ class Util {
 
   static Future<dynamic> read(String key) async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.getString(key) == null)
+    if (prefs.getString(key) == null || prefs.getString(key).isEmpty)
       return null;
     else
       return json.decode(prefs.getString(key));

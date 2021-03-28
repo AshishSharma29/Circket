@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'MyContestScreen.dart';
 
 class ContestTabScreen extends StatefulWidget {
-  Map<String, String> argument;
+  Map<String, dynamic> argument;
 
   ContestTabScreen(this.argument);
 
@@ -27,34 +27,36 @@ class _ContestTabScreenState extends State<ContestTabScreen> {
           color: ColorUtils.white,
         ),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            DefaultTabController(
-              length: 2,
-              child: TabBar(
-                unselectedLabelColor: ColorUtils.black,
-                labelColor: ColorUtils.colorPrimary,
-                onTap: _onTap,
-                tabs: [
-                  Tab(
-                    text: 'Contest',
+      body: widget.argument['isUpcoming'] != null
+          ? Container(
+              child: Column(
+                children: [
+                  DefaultTabController(
+                    length: 2,
+                    child: TabBar(
+                      unselectedLabelColor: ColorUtils.black,
+                      labelColor: ColorUtils.colorPrimary,
+                      onTap: _onTap,
+                      tabs: [
+                        Tab(
+                          text: 'Contest',
+                        ),
+                        Tab(
+                          text: 'My Contest',
+                        ),
+                      ],
+                    ),
                   ),
-                  Tab(
-                    text: 'My Contest',
-                  ),
+                  Expanded(
+                    child: [
+                      ContestListScreen(widget.argument),
+                      MyContestScreen(widget.argument),
+                    ][_pageNumber],
+                  )
                 ],
               ),
-            ),
-            Expanded(
-              child: [
-                ContestListScreen(widget.argument),
-                MyContestScreen(widget.argument),
-              ][_pageNumber],
             )
-          ],
-        ),
-      ),
+          : MyContestScreen(widget.argument),
     );
   }
 

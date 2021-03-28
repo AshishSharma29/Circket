@@ -66,4 +66,6 @@ class Strings {
   static var accountHolderName = 'Account holder name';
 
   static var accountNumber = 'Account number';
+
+  static String options = 'Options';
 }

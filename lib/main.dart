@@ -43,8 +43,7 @@ class MyApp extends StatelessWidget {
         accentColor: ColorUtils.colorPrimaryDark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute:
-          login.toString().isEmpty ? RouteNames.login : RouteNames.home,
+      initialRoute: login == null ? RouteNames.login : RouteNames.home,
       onGenerateRoute: CustomRouter.generateRoute,
     );
   }

@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ContestListScreen extends StatefulWidget {
-  Map<String, String> argument;
+  Map<String, dynamic> argument;
 
   ContestListScreen(this.argument);
 

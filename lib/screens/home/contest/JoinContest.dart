@@ -44,7 +44,7 @@ class _JoinContestState extends State<JoinContest> {
     return Stack(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 8, top: 16, right: 8, bottom: 8),
+          padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 16),
           margin: EdgeInsets.only(top: 16),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
@@ -65,10 +65,15 @@ class _JoinContestState extends State<JoinContest> {
                     style: TextStyle(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
-                  Icon(
-                    Icons.close,
-                    color: ColorUtils.darkerGrey,
-                    size: 20,
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: ColorUtils.darkerGrey,
+                      size: 20,
+                    ),
                   ),
                 ],
               ),

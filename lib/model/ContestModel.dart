@@ -6,6 +6,7 @@ class ContestModel {
   int _maxEntry;
   int _maxWinner;
   String _matchTitle;
+  String _result;
   String _tournamentTitle;
   String _startTime;
   String _endTime;
@@ -23,6 +24,7 @@ class ContestModel {
       int maxEntry,
       int maxWinner,
       String matchTitle,
+      String result,
       String tournamentTitle,
       String startTime,
       String endTime,
@@ -36,6 +38,7 @@ class ContestModel {
     this._entryFee = entryFee;
     this._prize = prize;
     this._maxEntry = maxEntry;
+    this._result = result;
     this._maxWinner = maxWinner;
     this._matchTitle = matchTitle;
     this._tournamentTitle = tournamentTitle;
@@ -75,6 +78,10 @@ class ContestModel {
   String get matchTitle => _matchTitle;
 
   set matchTitle(String matchTitle) => _matchTitle = matchTitle;
+
+  String get result => _result;
+
+  set result(String matchTitle) => _result = result;
 
   String get tournamentTitle => _tournamentTitle;
 
@@ -125,6 +132,7 @@ class ContestModel {
     _team1Icon = json['Team1Icon'];
     _team2Title = json['Team2Title'];
     _team2Icon = json['Team2Icon'];
+    _result = json['Result'];
   }
 
   Map<String, dynamic> toJson() {
@@ -136,6 +144,7 @@ class ContestModel {
     data['MaxEntry'] = this._maxEntry;
     data['MaxWinner'] = this._maxWinner;
     data['MatchTitle'] = this._matchTitle;
+    data['Result'] = this._result;
     data['TournamentTitle'] = this._tournamentTitle;
     data['StartTime'] = this._startTime;
     data['EndTime'] = this._endTime;

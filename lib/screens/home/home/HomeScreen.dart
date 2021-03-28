@@ -136,7 +136,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             .pushNamed(RouteNames.contest_tab, arguments: {
                           'matchId': matchList[index].matchId.toString(),
                           'matchTitle':
-                              matchList[index].tournamentTitle.toString()
+                              matchList[index].tournamentTitle.toString(),
+                          'isUpcoming': true
                         });
                       },
                       child: MatchRowCommon(match: matchList[index]),

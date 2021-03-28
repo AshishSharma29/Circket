@@ -208,10 +208,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      // if (loginResponse.balance > 100)
-                      Navigator.of(context)
-                          .pushNamed(RouteNames.withdraw)
-                          .then((value) => {getUserData(context)});
+                      if (loginResponse.balance > 100)
+                        Navigator.of(context)
+                            .pushNamed(RouteNames.withdraw)
+                            .then((value) => {getUserData(context)});
                     },
                     child: Card(
                       color: loginResponse.balance > 100
@@ -354,7 +354,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // return 'ca-app-pub-3940256099942544/1712485313';
       return 'ca-app-pub-3940256099942544/5224354917';
     } else if (Platform.isAndroid) {
-      return 'ca-app-pub-5307290955516221/8870200347';
+      return 'ca-app-pub-5307290955516221/9987431770';
     }
     return null;
   }

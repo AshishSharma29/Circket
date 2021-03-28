@@ -60,10 +60,19 @@ class _QuestionsDataState extends State<QuestionsData> {
                 ListTile(
                   title: Text(
                     '${widget.questionListModel.questions[_questionIndex].questionAnswers[i - 1].optionTitle}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.subtitle1.copyWith(
+                        color: widget
+                                    .questionListModel
+                                    .questions[_questionIndex]
+                                    .questionAnswers[i - 1]
+                                    .optionId ==
+                                widget
+                                    .questionListModel
+                                    .questions[_questionIndex]
+                                    .questionAnswers[i - 1]
+                                    .correctAnswer
+                            ? ColorUtils.colorPrimary
+                            : Colors.black),
                   ),
                   leading: Radio(
                     value: widget.questionListModel.questions[_questionIndex]

@@ -38,7 +38,7 @@ class CustomRouter {
       case RouteNames.contest_tab:
         return MaterialPageRoute(builder: (_) {
           print(settings.arguments);
-          var data = settings.arguments as Map<String, String>;
+          var data = settings.arguments as Map<String, dynamic>;
           return ContestTabScreen(data);
         });
       case RouteNames.coin_history:

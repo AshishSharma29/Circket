@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyContestScreen extends StatefulWidget {
-  Map<String, String> argument;
+  Map<String, dynamic> argument;
 
   MyContestScreen(this.argument);
 
@@ -61,7 +61,7 @@ class _MyContestScreenState extends State<MyContestScreen> {
                               children: [
                                 TextWidget(
                                   text: 'Prize',
-                                  color: ColorUtils.darkerGrey,
+                                  color: ColorUtils.black,
                                   textSize: 14,
                                 ),
                                 Row(
@@ -72,7 +72,7 @@ class _MyContestScreenState extends State<MyContestScreen> {
                                           .entryFee
                                           .ceil()
                                           .toString(),
-                                      color: ColorUtils.darkerGrey,
+                                      color: ColorUtils.black,
                                       textAlign: TextAlign.start,
                                     ),
                                     SizedBox(
@@ -130,6 +130,14 @@ class _MyContestScreenState extends State<MyContestScreen> {
                                     ))
                               ],
                             ),
+                            if (contestList[index].result.isNotEmpty)
+                              TextWidget(
+                                color: ColorUtils.colorPrimary,
+                                textSize: 18,
+                                fontWeight: FontWeight.normal,
+                                text:
+                                    '${contestList[index].result} ${contestList[index].prize.ceil()}',
+                              ),
                           ],
                         ),
                       ),
