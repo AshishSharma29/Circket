@@ -68,4 +68,14 @@ class Strings {
   static var accountNumber = 'Account number';
 
   static String options = 'Options';
+
+  static var alreadyRedeemed = 'Already requested for withdraw';
+
+  static var ifscCode = 'IFSC Code';
+
+  static var bankName = 'Bank Name';
+
+  static var branchName = 'Branch Name';
+
+  static var state = 'State';
 }

@@ -77,6 +77,7 @@ class _WithdrawState extends State<Withdraw> {
                 ),
                 TextField(
                   maxLength: 3,
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     prefixIcon: Image.asset(
                       ImageUtils.coin,
@@ -96,10 +97,22 @@ class _WithdrawState extends State<Withdraw> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: ColorUtils.colorPrimary,
+                    primary: loginResponse != null &&
+                            loginResponse.paymentRequestPending
+                        ? ColorUtils.darkerGrey
+                        : ColorUtils.colorPrimary,
                   ),
                   onPressed: () {
-                    withdrawAmount(context);
+                    if (int.parse(amount) % 50 != 0) {
+                      Util.showValidationdialog(
+                          context, 'Please enter count in multiple of 50.');
+                    } else if (loginResponse != null &&
+                        !loginResponse.paymentRequestPending &&
+                        int.parse(amount) > (loginResponse.balance))
+                      withdrawAmount(context);
+                    else
+                      Util.showValidationdialog(context,
+                          '150 coins should be in your wallet to create withdraw request.');
                   },
                   child: TextWidget(
                     color: ColorUtils.white,
@@ -107,6 +120,13 @@ class _WithdrawState extends State<Withdraw> {
                     text: Strings.withdraw,
                   ),
                 ),
+                if (loginResponse != null &&
+                    loginResponse.paymentRequestPending)
+                  TextWidget(
+                    color: ColorUtils.colorAccent,
+                    textSize: 12,
+                    text: Strings.alreadyRedeemed,
+                  ),
                 SizedBox(
                   height: 20,
                 ),
@@ -127,6 +147,7 @@ class _WithdrawState extends State<Withdraw> {
           "UserId": userModel['Id'].toString(),
           "Amount": amount,
         });
+    getUserData(context);
     Util.showValidationdialog(
         context, 'Redeem request submitted successfully.');
   }

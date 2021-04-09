@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -7,6 +8,7 @@ import 'package:cricquiz11/model/LoginResponseModel.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
+import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/network_util.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/strings.dart';
@@ -24,7 +26,73 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isEditable = false;
   LoginResponseModel loginResponse;
-  GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
+
+  AdmobReward rewardAd;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsFlutterBinding.ensureInitialized();
+    Admob.initialize();
+    // RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("E8FDF12CB0D3B1AB7D6D6E2BF1B5502C"))
+    // Admob.initialize(testDeviceIds: ['E8FDF12CB0D3B1AB7D6D6E2BF1B5502C']);
+    rewardAd = AdmobReward(
+      adUnitId: getRewardBasedVideoAdUnitId(),
+      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+        if (event == AdmobAdEvent.closed) rewardAd.load();
+        handleEvent(event, args, 'Reward');
+      },
+    );
+
+    rewardAd.load();
+  }
+
+  void handleEvent(
+      AdmobAdEvent event, Map<String, dynamic> args, String adType) {
+    switch (event) {
+      case AdmobAdEvent.loaded:
+        showSnackBar('New Admob $adType Ad loaded!');
+        break;
+      case AdmobAdEvent.opened:
+        showSnackBar('Admob $adType Ad opened!');
+        break;
+      case AdmobAdEvent.closed:
+        showSnackBar('Admob $adType Ad closed!');
+        break;
+      case AdmobAdEvent.failedToLoad:
+        showSnackBar('Admob $adType failed to load. :(');
+        break;
+      case AdmobAdEvent.rewarded:
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return WillPopScope(
+              child: AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                        'Thanks for watching the ad. We will credit 1 coin in your account'),
+                  ],
+                ),
+              ),
+              onWillPop: () async {
+                insertGoogleAdCoin(context);
+                return true;
+              },
+            );
+          },
+        );
+        break;
+      default:
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    rewardAd.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +108,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextWidget(
-                        textAlign: TextAlign.center,
-                        textSize: 24,
-                        text: loginResponse == null
-                            ? ''
-                            : '${loginResponse.balance}',
+                      Row(
+                        children: [
+                          TextWidget(
+                            textAlign: TextAlign.center,
+                            textSize: 24,
+                            text: loginResponse == null
+                                ? ''
+                                : '${loginResponse.balance.ceil()}',
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Image.asset(
+                            ImageUtils.coin,
+                            height: 25,
+                            width: 25,
+                          ),
+                        ],
                       ),
                       Row(
                         children: [
@@ -208,10 +288,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      if (loginResponse.balance > 100)
+                      if (loginResponse.balance > 150)
                         Navigator.of(context)
                             .pushNamed(RouteNames.withdraw)
                             .then((value) => {getUserData(context)});
+                      else
+                        Util.showValidationdialog(context,
+                            'At least 150 coins are required to withdraw the coins.');
                     },
                     child: Card(
                       color: loginResponse.balance > 100
@@ -230,7 +313,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
   }
 
-  AdmobReward rewardAd;
+  String getBannerAdUnitId() {
+    if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/2934735716';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-3940256099942544/6300978111';
+    }
+    /*if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/2934735716';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-3054283360025567/6344807451';
+    }*/
+    return null;
+  }
 
   Future<void> _onTap() async {
     if (!_isEditable) {
@@ -278,83 +373,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void showAd() async {
-    if (Platform.isIOS) await Admob.requestTrackingAuthorization();
-    rewardAd = AdmobReward(
-      adUnitId: getRewardBasedVideoAdUnitId(),
-      listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-        if (event == AdmobAdEvent.closed) rewardAd.load();
-        handleEvent(event, args, 'Reward');
-      },
-    );
-
-    rewardAd.load();
-  }
-
-  void showSnackBar(String content) {
-    scaffoldState.currentState.showSnackBar(
-      SnackBar(
-        content: Text(content),
-        duration: Duration(milliseconds: 1500),
-      ),
-    );
-  }
-
-  void handleEvent(
-      AdmobAdEvent event, Map<String, dynamic> args, String adType) {
-    switch (event) {
-      case AdmobAdEvent.loaded:
-        showSnackBar('New Admob $adType Ad loaded!');
-        break;
-      case AdmobAdEvent.opened:
-        showSnackBar('Admob $adType Ad opened!');
-        break;
-      case AdmobAdEvent.closed:
-        showSnackBar('Admob $adType Ad closed!');
-        break;
-      case AdmobAdEvent.failedToLoad:
-        showSnackBar('Admob $adType failed to load. :(');
-        break;
-      case AdmobAdEvent.rewarded:
-        showDialog(
-          context: scaffoldState.currentContext,
-          builder: (BuildContext context) {
-            return WillPopScope(
-              child: AlertDialog(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text('Reward callback fired. Thanks Andrew!'),
-                    Text('Type: ${args['type']}'),
-                    Text('Amount: ${args['amount']}'),
-                  ],
-                ),
-              ),
-              onWillPop: () async {
-                scaffoldState.currentState.hideCurrentSnackBar();
-                return true;
-              },
-            );
-          },
-        );
-        break;
-      default:
+  Future<void> insertGoogleAdCoin(BuildContext context) async {
+    prefs = await SharedPreferences.getInstance();
+    var user = await Util.read(Constant.LoginResponse);
+    loginResponse = LoginResponseModel.fromJson(user);
+    var response = await NetworkUtil.callPostApi(
+        context: context,
+        apiName: ApiConstant.insertGoogleAdCoin,
+        requestBody: {'userId': loginResponse.id.toString()});
+    print(response);
+    if (json.encode(response["ResponsePacket"]) != 'null') {
+      getUserData(context);
     }
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    rewardAd.dispose();
+  Future<void> showAd() async {
+    if (Platform.isIOS) await Admob.requestTrackingAuthorization();
+    if (await rewardAd.isLoaded) {
+      rewardAd.show();
+    } else {
+      showSnackBar('reward Ad is still loading...');
+    }
+  }
+
+  void showSnackBar(String content) {
+    print(content);
   }
 
   String getRewardBasedVideoAdUnitId() {
     if (Platform.isIOS) {
-      // return 'ca-app-pub-3940256099942544/1712485313';
-      return 'ca-app-pub-3940256099942544/5224354917';
+      return 'ca-app-pub-3940256099942544/1712485313';
     } else if (Platform.isAndroid) {
-      return 'ca-app-pub-5307290955516221/9987431770';
+      return 'ca-app-pub-3940256099942544/5224354917';
+    }
+
+/*    if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/1712485313';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-3054283360025567/5143993158';
+    }*/
+    return null;
+  }
+
+  String getInterstitialAdUnitId() {
+    if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/4411468910';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-3054283360025567/4687292619';
     }
     return null;
   }

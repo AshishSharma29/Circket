@@ -1,4 +1,3 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cricquiz11/screens/home/CricketProvider.dart';
 import 'package:cricquiz11/screens/login/LoginProvider.dart';
 import 'package:cricquiz11/util/colors.dart';
@@ -13,9 +12,6 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // Admob.initialize();
-  Admob.initialize(testDeviceIds: ["E8FDF12CB0D3B1AB7D6D6E2BF1B5502C"]);
-  // RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList())
   var login = await Util.read(Constant.LoginResponse);
 
   runApp(MultiProvider(

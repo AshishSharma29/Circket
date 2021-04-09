@@ -1,22 +1,25 @@
 class LoginResponseModel {
-  String _id;
+  int _id;
   String _name;
   String _mobileNo;
   String _email;
   String _dOB;
   String _referralCode;
   double _balance;
+  bool _paymentRequestPending;
 
   LoginResponseModel(
-      {String id,
+      {int id,
       String name,
       String mobileNo,
       String email,
       String dOB,
+      bool paymentRequestPending,
       String referralCode,
       double balance}) {
     this._id = id;
     this._name = name;
+    this._paymentRequestPending = paymentRequestPending;
     this._mobileNo = mobileNo;
     this._email = email;
     this._dOB = dOB;
@@ -24,9 +27,15 @@ class LoginResponseModel {
     this._balance = balance;
   }
 
-  String get id => _id;
+  bool get paymentRequestPending => _paymentRequestPending;
 
-  set id(String id) => _id = id;
+  set paymentRequestPending(bool value) {
+    _paymentRequestPending = value;
+  }
+
+  int get id => _id;
+
+  set id(int id) => _id = id;
 
   String get name => _name;
 
@@ -53,13 +62,14 @@ class LoginResponseModel {
   set balance(double balance) => _balance = balance;
 
   LoginResponseModel.fromJson(Map<String, dynamic> json) {
-    _id = json['Id'].toString();
+    _id = json['Id'];
     _name = json['Name'];
     _mobileNo = json['MobileNo'];
     _email = json['Email'];
     _dOB = json['DOB'];
     _referralCode = json['ReferralCode'];
     _balance = json['Balance'];
+    _paymentRequestPending = json['PaymentRequestPending'];
   }
 
   Map<String, dynamic> toJson() {
@@ -70,6 +80,7 @@ class LoginResponseModel {
     data['Email'] = this._email;
     data['DOB'] = this._dOB == null ? '' : this._dOB;
     data['ReferralCode'] = this._referralCode;
+    data['PaymentRequestPending'] = this._paymentRequestPending;
     data['Balance'] = this._balance.toString();
     return data;
   }
