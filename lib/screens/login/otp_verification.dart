@@ -11,7 +11,9 @@ import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../util/util.dart';
@@ -27,25 +29,6 @@ class OtpVerification extends StatefulWidget {
 
 class _OtpVerificationState extends State<OtpVerification> {
   TextEditingController referralController = TextEditingController();
-  FocusNode _focusNode1 = FocusNode(),
-      _focusNode2 = FocusNode(),
-      _focusNode3 = FocusNode(),
-      _focusNode4 = FocusNode(),
-      _focusNode5 = FocusNode(),
-      _focusNode6 = FocusNode();
-  TextEditingController one = TextEditingController(),
-      two = TextEditingController(),
-      three = TextEditingController(),
-      four = TextEditingController(),
-      five = TextEditingController(),
-      six = TextEditingController();
-
-  bool color1 = false,
-      color2 = false,
-      color3 = false,
-      color4 = false,
-      color5 = false,
-      color6 = false;
   FirebaseAuth auth = FirebaseAuth.instance;
   SharedPreferences prefs;
 
@@ -53,16 +36,12 @@ class _OtpVerificationState extends State<OtpVerification> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    color1 = true;
-    color2 = true;
-    color3 = true;
-    color4 = true;
-    color5 = true;
-    color6 = true;
     Future.delayed(Duration.zero, () {
       sendOtp(widget.arguments[Constant.mobileNumber]);
     });
   }
+
+  TextEditingController _pinEditingController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -71,353 +50,150 @@ class _OtpVerificationState extends State<OtpVerification> {
       child: Scaffold(
         body: Stack(
           children: [
-/*            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment(0.8, 0.0),
-                  // 10% of the width, so there are ten blinds.
-                  colors: [
-                    ColorUtils.green,
-                    ColorUtils.green,
-                    ColorUtils.green
-                  ],
-                  // red to yellow
-                  tileMode:
-                      TileMode.clamp, // repeats the gradient over the canvas
-                ),
+            Container(
+              child: Image.asset(
+                ImageUtils.greenBg,
+                fit: BoxFit.cover,
+                height: double.infinity,
+                width: double.infinity,
+                alignment: Alignment.center,
               ),
-            ),*/
+            ),
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                alignment: Alignment.center,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 30,
-                    ),
-                    Image.asset(
-                      ImageUtils.APP_LOGO_BANNER,
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    TextWidget(
-                      text: Strings.verification,
-                      textSize: 24,
-                      fontWeight: FontStyles.bold,
-                      color: ColorUtils.colorPrimary,
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    TextWidget(
-                      textAlign: TextAlign.center,
-                      padding: EdgeInsets.symmetric(horizontal: 40),
-                      text:
-                          'code has been sent On ${args[Constant.mobileNumber]}',
-                      textSize: 18,
-                      fontWeight: FontStyles.regular,
-                      color: ColorUtils.black,
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: TextField(
-                            controller: one,
-                            focusNode: _focusNode1,
-                            maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              counterText: '',
-                              filled: true,
-                              fillColor: color1
-                                  ? ColorUtils.lightGrey
-                                  : ColorUtils.otpBg,
-                              hintStyle: TextStyle(
-                                  color: Colors.black.withOpacity(0.15),
-                                  fontSize: 24),
-                              hintText: '0',
-                              contentPadding: EdgeInsets.all(10.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            textAlign: TextAlign.center,
-                            onChanged: (data) {
-                              if (data.isNotEmpty) {
-                                _focusNode1.unfocus();
-                                _focusNode2.requestFocus();
-                              }
-                              setState(() {
-                                color1 = !data.isNotEmpty;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Expanded(
-                          child: TextField(
-                            controller: two,
-                            focusNode: _focusNode2,
-                            maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              counterText: '',
-                              filled: true,
-                              fillColor: color2
-                                  ? ColorUtils.lightGrey
-                                  : ColorUtils.otpBg,
-                              hintStyle: TextStyle(
-                                  color: Colors.black.withOpacity(0.15),
-                                  fontSize: 24),
-                              hintText: '0',
-                              contentPadding: EdgeInsets.all(10.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            textAlign: TextAlign.center,
-                            onChanged: (data) {
-                              if (data.isEmpty) {
-                                _focusNode2.unfocus();
-                                _focusNode1.requestFocus();
-                              } else {
-                                _focusNode3.requestFocus();
-                              }
-                              setState(() {
-                                color2 = !data.isNotEmpty;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Expanded(
-                          child: TextField(
-                            controller: three,
-                            focusNode: _focusNode3,
-                            maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              counterText: '',
-                              filled: true,
-                              fillColor: color3
-                                  ? ColorUtils.lightGrey
-                                  : ColorUtils.otpBg,
-                              hintStyle: TextStyle(
-                                  color: Colors.black.withOpacity(0.15),
-                                  fontSize: 24),
-                              hintText: '0',
-                              contentPadding: EdgeInsets.all(10.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            textAlign: TextAlign.center,
-                            onChanged: (data) {
-                              if (data.isEmpty) {
-                                _focusNode3.unfocus();
-                                _focusNode2.requestFocus();
-                              } else {
-                                _focusNode4.requestFocus();
-                              }
-                              setState(() {
-                                color3 = !data.isNotEmpty;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Expanded(
-                          child: TextField(
-                            controller: four,
-                            focusNode: _focusNode4,
-                            maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              counterText: '',
-                              filled: true,
-                              fillColor: color4
-                                  ? ColorUtils.lightGrey
-                                  : ColorUtils.otpBg,
-                              hintStyle: TextStyle(
-                                  color: Colors.black.withOpacity(0.15),
-                                  fontSize: 24),
-                              hintText: '0',
-                              contentPadding: EdgeInsets.all(10.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            textAlign: TextAlign.center,
-                            onChanged: (data) {
-                              if (data.isEmpty) {
-                                _focusNode4.unfocus();
-                                _focusNode3.requestFocus();
-                              } else {
-                                _focusNode5.requestFocus();
-                              }
-                              setState(() {
-                                color4 = !data.isNotEmpty;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Expanded(
-                          child: TextField(
-                            controller: five,
-                            focusNode: _focusNode5,
-                            maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              counterText: '',
-                              filled: true,
-                              fillColor: color5
-                                  ? ColorUtils.lightGrey
-                                  : ColorUtils.otpBg,
-                              hintStyle: TextStyle(
-                                  color: Colors.black.withOpacity(0.15),
-                                  fontSize: 24),
-                              hintText: '0',
-                              contentPadding: EdgeInsets.all(10.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            textAlign: TextAlign.center,
-                            onChanged: (data) {
-                              if (data.isEmpty) {
-                                _focusNode5.unfocus();
-                                _focusNode4.requestFocus();
-                              } else {
-                                _focusNode6.requestFocus();
-                              }
-                              setState(() {
-                                color5 = !data.isNotEmpty;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Expanded(
-                          child: TextField(
-                            controller: six,
-                            focusNode: _focusNode6,
-                            maxLength: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 24),
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              counterText: '',
-                              filled: true,
-                              fillColor: color6
-                                  ? ColorUtils.lightGrey
-                                  : ColorUtils.otpBg,
-                              hintStyle: TextStyle(
-                                  color: Colors.black.withOpacity(0.15),
-                                  fontSize: 24),
-                              hintText: '0',
-                              contentPadding: EdgeInsets.all(10.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            textAlign: TextAlign.center,
-                            onChanged: (data) async {
-                              if (data.isEmpty) {
-                                _focusNode6.unfocus();
-                                _focusNode5.requestFocus();
-                              } else {}
-                              setState(() {
-                                color6 = !data.isNotEmpty;
-                              });
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16,
+                      height: 40,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: TextField(
-                        maxLength: 8,
-                        controller: referralController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
+                      padding: const EdgeInsets.all(16.0),
+                      child: Card(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                ImageUtils.APP_LOGO_BANNER,
+                                height: 120,
+                                width: 360,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              TextWidget(
+                                text: Strings.verification,
+                                textSize: 24,
+                                fontWeight: FontStyles.bold,
+                                color: ColorUtils.colorPrimary,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              TextWidget(
+                                textAlign: TextAlign.center,
+                                padding: EdgeInsets.symmetric(horizontal: 40),
+                                text:
+                                    'code has been sent On ${args[Constant.mobileNumber]}',
+                                textSize: 18,
+                                fontWeight: FontStyles.regular,
+                                color: ColorUtils.black,
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              PinInputTextField(
+                                pinLength: 6,
+                                decoration: BoxLooseDecoration(
+                                  strokeColorBuilder: PinListenColorBuilder(
+                                      ColorUtils.colorPrimary,
+                                      ColorUtils.colorAccent),
+                                  /*bgColorBuilder: _solidEnable ? _solidColor : null,*/
+                                  obscureStyle: ObscureStyle(
+                                    isTextObscure: true,
+                                    obscureText: '*',
+                                  ),
+                                  hintText: '000000',
+                                ),
+                                controller: _pinEditingController,
+                                textInputAction: TextInputAction.go,
+                                enabled: true,
+                                keyboardType: TextInputType.text,
+                                textCapitalization:
+                                    TextCapitalization.characters,
+                                onSubmit: (pin) {
+                                  debugPrint('submit pin:$pin');
+                                },
+                                onChanged: (pin) {
+                                  debugPrint('onChanged execute. pin:$pin');
+                                },
+                                enableInteractiveSelection: false,
+                                cursor: Cursor(
+                                  width: 2,
+                                  color: ColorUtils.colorAccent,
+                                  radius: Radius.circular(1),
+                                  enabled: true,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              TextField(
+                                maxLength: 8,
+                                controller: referralController,
+                                decoration: InputDecoration(
+                                  counterText: '',
+                                  hintText: 'Referral code(Optional)',
+                                ),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              TextWidget(
+                                textAlign: TextAlign.center,
+                                padding: EdgeInsets.symmetric(horizontal: 40),
+                                text: Strings.didNotReceiveCode,
+                                textSize: 12,
+                                fontWeight: FontStyles.regular,
+                                color: ColorUtils.colorAccent,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  sendOtp(
+                                      widget.arguments[Constant.mobileNumber]);
+                                },
+                                child: TextWidget(
+                                  textAlign: TextAlign.center,
+                                  padding: EdgeInsets.symmetric(horizontal: 40),
+                                  text: Strings.requestAgain,
+                                  textSize: 16,
+                                  fontWeight: FontStyles.bold,
+                                  color: ColorUtils.colorAccent,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                            ],
                           ),
-                          counterText: '',
-                          hintText: 'Referral code(Optional)',
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 16,
                     ),
                     isLoading
                         ? Util().getLoader()
                         : Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
                             child: SizedBox(
                               width: double.infinity,
                               child: RaisedButton(
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),
                                 padding: EdgeInsets.all(12),
                                 onPressed: () {
-                                  verifyOtp(
-                                      one.text +
-                                          two.text +
-                                          three.text +
-                                          four.text +
-                                          five.text +
-                                          six.text,
-                                      context,
+                                  verifyOtp(_pinEditingController.text, context,
                                       '+91' + args[Constant.mobileNumber]);
                                 },
                                 color: ColorUtils.colorAccent,
@@ -432,28 +208,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                           ),
                     SizedBox(
                       height: 16,
-                    ),
-                    TextWidget(
-                      textAlign: TextAlign.center,
-                      padding: EdgeInsets.symmetric(horizontal: 40),
-                      text: Strings.didNotReceiveCode,
-                      textSize: 16,
-                      fontWeight: FontStyles.regular,
-                      color: ColorUtils.colorPrimary,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        sendOtp(widget.arguments[Constant.mobileNumber]);
-                      },
-                      child: TextWidget(
-                        textAlign: TextAlign.center,
-                        padding: EdgeInsets.symmetric(horizontal: 40),
-                        text: Strings.requestAgain,
-                        textSize: 18,
-                        fontWeight: FontStyles.bold,
-                        color: ColorUtils.colorPrimary,
-                      ),
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -496,6 +251,10 @@ class _OtpVerificationState extends State<OtpVerification> {
   }
 
   verifyOtp(String otp, BuildContext context, String number) async {
+    if (otp == null || otp.length < 6) {
+      Util.showValidationdialog(context, 'Please enter OTP');
+      return;
+    }
     isLoading = true;
     setState(() {});
     prefs = await SharedPreferences.getInstance();

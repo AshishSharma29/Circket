@@ -49,7 +49,11 @@ class _AccountVerificationState extends State<AccountVerification> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Image.asset(ImageUtils.APP_LOGO_BANNER),
+              Image.asset(
+                ImageUtils.APP_LOGO_BANNER,
+                height: 120,
+                width: 360,
+              ),
               TextField(
                 maxLength: 20,
                 controller: TextEditingController()

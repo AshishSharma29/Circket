@@ -1,7 +1,5 @@
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/util/colors.dart';
-import 'package:cricquiz11/util/constant.dart';
-import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +35,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
           color: ColorUtils.white,
         ),
         actions: [
+          /*InkWell(
+            onTap: () {
+              Navigator.of(context).pushNamed(RouteNames.settings);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextWidget(
+                text: 'Settings',
+                color: ColorUtils.white,
+                textSize: 16,
+              ),
+            ),
+          ),*/
           InkWell(
+            onTap: () {
+              Navigator.of(context).pushNamed(RouteNames.settings);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Icon(
+                Icons.settings,
+              ),
+            ),
+          ),
+          /*InkWell(
             onTap: () {
               _logoutOnClick(context);
               // _openQuestion(context);
@@ -50,7 +72,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               padding: const EdgeInsets.all(12),
             ),
-          ),
+          ),*/
         ],
       ),
       body: _children[_currentIndex], // new
@@ -103,35 +125,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   SharedPreferences prefs;
-
-  Future<void> _logoutOnClick(BuildContext context) async {
-    prefs = await SharedPreferences.getInstance();
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(Strings.appName),
-          content: Text(Strings.logoutConfirmation),
-          actions: [
-            FlatButton(
-              child: Text(Strings.yes),
-              onPressed: () {
-                prefs.setString(Constant.LoginResponse, '');
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    RouteNames.login, (route) => false);
-              },
-            ),
-            FlatButton(
-              child: Text(Strings.no),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
 
   void _openQuestion(BuildContext context) {
     Navigator.of(context).pushNamed(RouteNames.questionnaire);

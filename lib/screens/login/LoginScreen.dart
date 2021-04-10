@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          /*Container(
+          Container(
             child: Image.asset(
               ImageUtils.greenBg,
               fit: BoxFit.cover,
@@ -29,69 +29,114 @@ class _LoginScreenState extends State<LoginScreen> {
               width: double.infinity,
               alignment: Alignment.center,
             ),
-          ),*/
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: GestureDetector(
-              onTap: () {
-                FocusScope.of(context).requestFocus(new FocusNode());
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Image.asset(
-                    ImageUtils.APP_LOGO_BANNER,
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.number,
-                    maxLength: 15,
-                    controller: mobileController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                          borderSide:
-                              BorderSide(color: ColorUtils.colorAccent)),
-                      counterText: '',
-                      hintText: 'Mobile number',
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  RaisedButton(
-                    padding: EdgeInsets.all(12),
-                    onPressed: () {
-                      if (mobileController.text.isEmpty) {
-                        Util.showValidationdialog(
-                            context, Strings.emptyPhoneNumberValidation);
-                      } else if (mobileController.text.length < 7) {
-                        Util.showValidationdialog(
-                            context, Strings.validPhoneNumberValidation);
-                      } else
-                        Navigator.of(context)
-                            .pushNamed(RouteNames.otpVerification, arguments: {
-                          Constant.mobileNumber: mobileController.text
-                        });
+          ),
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
                     },
-                    color: ColorUtils.colorAccent,
-                    child: TextWidget(
-                      color: ColorUtils.white,
-                      text: 'Login',
-                      textSize: 16,
-                      fontWeight: FontWeight.bold,
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Image.asset(
+                              ImageUtils.APP_LOGO_BANNER,
+                              height: 120,
+                              width: 360,
+                            ),
+                            SizedBox(
+                              height: 32,
+                            ),
+                            TextWidget(
+                              text: 'Enter mobile number and login',
+                              textSize: 16,
+                              color: ColorUtils.darkerGrey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Card(
+                              shadowColor: ColorUtils.colorAccent,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    TextWidget(
+                                      text: '+91',
+                                      textSize: 16,
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Expanded(
+                                      child: TextField(
+                                        keyboardType: TextInputType.number,
+                                        maxLength: 15,
+                                        controller: mobileController,
+                                        decoration: InputDecoration(
+                                          focusedBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                          counterText: '',
+                                          hintText: 'Mobile number',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 24,
+                            ),
+                            RaisedButton(
+                              elevation: 4,
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0),
+                              ),
+                              padding: EdgeInsets.all(12),
+                              onPressed: () {
+                                if (mobileController.text.isEmpty) {
+                                  Util.showValidationdialog(context,
+                                      Strings.emptyPhoneNumberValidation);
+                                } else if (mobileController.text.length < 7) {
+                                  Util.showValidationdialog(context,
+                                      Strings.validPhoneNumberValidation);
+                                } else
+                                  Navigator.of(context).pushNamed(
+                                      RouteNames.otpVerification,
+                                      arguments: {
+                                        Constant.mobileNumber:
+                                            mobileController.text
+                                      });
+                              },
+                              color: ColorUtils.colorAccent,
+                              child: TextWidget(
+                                color: ColorUtils.white,
+                                text: 'Login',
+                                textSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 24,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],

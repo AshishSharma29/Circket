@@ -38,9 +38,6 @@ class NetworkUtil {
 
   static Future<dynamic> callPostApi(
       {BuildContext context, String apiName, dynamic requestBody}) async {
-    print(requestBody);
-    print(apiName);
-
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if (isNetActive) {
       final prefs = await SharedPreferences.getInstance();

@@ -13,4 +13,6 @@ class RouteNames {
   static const withdraw = '\withdraw';
 
   static const accountVerification = '\account_verification';
+
+  static const settings = '\settings';
 }

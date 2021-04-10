@@ -49,4 +49,9 @@ class ImageUtils {
   static String edit = _imagesRoot + 'edit.png';
   static String APP_LOGO = _imagesRoot + 'app_logo.png';
   static String APP_LOGO_BANNER = _imagesRoot + 'app_logo_banner.png';
+  static String coinHistory = _imagesRoot + 'coin_history.png';
+  static String withdraw = _imagesRoot + 'withdraw.png';
+  static String earnMore = _imagesRoot + 'earn_more.png';
+  static String userIcon = _imagesRoot + 'user_icon.png';
+  static String exit = _imagesRoot + 'exit.png';
 }

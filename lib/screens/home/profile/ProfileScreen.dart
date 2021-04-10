@@ -10,7 +10,6 @@ import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
 import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/network_util.dart';
-import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/cupertino.dart';
@@ -236,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     height: 16,
                   ),
-                  InkWell(
+                  /*                InkWell(
                     onTap: () {
                       Navigator.of(context).pushNamed(RouteNames.coin_history);
                     },
@@ -306,7 +305,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         text: Strings.withdraw,
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
@@ -382,9 +381,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         apiName: ApiConstant.insertGoogleAdCoin,
         requestBody: {'userId': loginResponse.id.toString()});
     print(response);
-    if (json.encode(response["ResponsePacket"]) != 'null') {
-      getUserData(context);
-    }
+    getUserData(context);
   }
 
   Future<void> showAd() async {

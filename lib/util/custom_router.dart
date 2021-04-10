@@ -4,6 +4,7 @@ import 'package:cricquiz11/screens/home/my_matchs/questions/QuestionnaireScreen.
 import 'package:cricquiz11/screens/home/profile/CoinHistory.dart';
 import 'package:cricquiz11/screens/home/profile/InstructionToPlay.dart';
 import 'package:cricquiz11/screens/home/profile/account_verification.dart';
+import 'package:cricquiz11/screens/home/profile/settings_screen.dart';
 import 'package:cricquiz11/screens/home/profile/withdraw.dart';
 import 'package:cricquiz11/screens/login/LoginScreen.dart';
 import 'package:cricquiz11/screens/login/otp_verification.dart';
@@ -46,6 +47,10 @@ class CustomRouter {
           print(settings.arguments);
           var data = settings.arguments as Map<String, String>;
           return CoinHistory(data);
+        });
+      case RouteNames.settings:
+        return MaterialPageRoute(builder: (_) {
+          return SettingsScreen();
         });
       case RouteNames.instruction_to_play:
         return MaterialPageRoute(builder: (_) {

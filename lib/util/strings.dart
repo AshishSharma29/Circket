@@ -44,7 +44,7 @@ class Strings {
 
   static var coinHistory = 'Coins History';
 
-  static var instructionToEarn = 'Instruction to earn';
+  static var instructionToEarn = 'How to play';
   static var earnMore = 'Earn more';
 
   static const withdraw = 'Withdraw';
@@ -78,4 +78,6 @@ class Strings {
   static var branchName = 'Branch Name';
 
   static var state = 'State';
+
+  static var logout = 'Logout';
 }
