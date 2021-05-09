@@ -1,5 +1,5 @@
-import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/util/colors.dart';
+import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:flutter/material.dart';
@@ -28,53 +28,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextWidget(
-          text: _pageTitle,
-          textSize: 16,
-          color: ColorUtils.white,
-        ),
-        actions: [
-          /*InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed(RouteNames.settings);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextWidget(
-                text: 'Settings',
-                color: ColorUtils.white,
-                textSize: 16,
-              ),
-            ),
-          ),*/
-          InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed(RouteNames.settings);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Icon(
-                Icons.settings,
-              ),
-            ),
-          ),
-          /*InkWell(
-            onTap: () {
-              _logoutOnClick(context);
-              // _openQuestion(context);
-            },
-            child: Padding(
-              child: Image.asset(
-                ImageUtils.logout,
-                width: 32,
-                height: 32,
-              ),
-              padding: const EdgeInsets.all(12),
-            ),
-          ),*/
-        ],
-      ),
       body: _children[_currentIndex], // new
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -85,15 +38,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
         onTap: _onTapped,
         items: [
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
-            title: new Text(Strings.home),
+            icon: Image.asset(
+              ImageUtils.homeUnselect,
+              height: 35,
+              width: 35,
+            ),
+            activeIcon: Image.asset(
+              ImageUtils.homeSelect,
+              height: 35,
+              width: 35,
+            ),
+            title: Text(Strings.home),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.my_location),
-            title: new Text(Strings.myMatch),
+            icon: Image.asset(
+              ImageUtils.myMatchUnselect,
+              height: 35,
+              width: 35,
+            ),
+            activeIcon: Image.asset(
+              ImageUtils.myMatchSelect,
+              height: 35,
+              width: 35,
+            ),
+            title: Text(Strings.myMatch),
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person), title: Text(Strings.profile)),
+            icon: Image.asset(
+              ImageUtils.profileUnselect,
+              height: 35,
+              width: 35,
+            ),
+            activeIcon: Image.asset(
+              ImageUtils.profileSelect,
+              height: 35,
+              width: 35,
+            ),
+            title: Text(Strings.profile),
+          ),
           /*BottomNavigationBarItem(
               icon: Icon(Icons.notifications),
               title: Text(Strings.notification))*/

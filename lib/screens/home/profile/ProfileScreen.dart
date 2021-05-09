@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/LoginResponseModel.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
@@ -10,10 +11,12 @@ import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
 import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/network_util.dart';
+import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -96,220 +99,270 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     if (loginResponse == null) getUserData(context);
-    return loginResponse == null
-        ? Util().getLoader()
-        : SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      child: Stack(
+        children: [
+          Container(
+            child: Image.asset(
+              ImageUtils.appBg,
+              fit: BoxFit.cover,
+              height: double.infinity,
+              width: double.infinity,
+              alignment: Alignment.center,
+            ),
+          ),
+          loginResponse == null
+              ? Util().getLoader()
+              : Container(
+                  child: Column(
                     children: [
+                      SizedBox(
+                        height: 20,
+                      ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          InkWell(
+                            onTap: () {
+                              Util.closeApplication(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Image.asset(
+                                ImageUtils.backArrow,
+                                height: 32,
+                                width: 32,
+                              ),
+                            ),
+                          ),
                           TextWidget(
-                            textAlign: TextAlign.center,
-                            textSize: 24,
-                            text: loginResponse == null
-                                ? ''
-                                : '${loginResponse.balance.ceil()}',
+                            padding: const EdgeInsets.all(24),
+                            color: ColorUtils.white,
+                            textSize: 18,
+                            fontWeight: FontStyles.bold,
+                            text: Strings.profile,
                           ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Image.asset(
-                            ImageUtils.coin,
-                            height: 25,
-                            width: 25,
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(RouteNames.settings);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Image.asset(
+                                ImageUtils.settings,
+                                height: 32,
+                                width: 32,
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          TextWidget(
-                            textAlign: TextAlign.center,
-                            textSize: 24,
-                            text: loginResponse == null
-                                ? ''
-                                : '${loginResponse.referralCode}',
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 32.0, horizontal: 8.0),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  ImageUtils.earnMore,
+                                  height: 60,
+                                  width: 60,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                TextWidget(
+                                  textAlign: TextAlign.center,
+                                  textSize: 40,
+                                  color: ColorUtils.white,
+                                  fontWeight: FontStyles.bold,
+                                  text: loginResponse == null
+                                      ? ''
+                                      : '${loginResponse.balance.ceil()}',
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Share.share(
+                                            'download and install this app using ${loginResponse.referralCode} referral code and get 100 coins');
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0, vertical: 8.0),
+                                        alignment: Alignment.center,
+                                        height: 55,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image: AssetImage(
+                                                ImageUtils.playButton),
+                                          ),
+                                        ),
+                                        child: TextWidget(
+                                          textAlign: TextAlign.center,
+                                          textSize: 16,
+                                          text: 'Refer and earn',
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: TextField(
+                                    style: TextStyle(color: ColorUtils.white),
+                                    cursorColor: ColorUtils.white,
+                                    maxLength: 50,
+                                    controller: TextEditingController()
+                                      ..text = loginResponse.name,
+                                    enabled: _isEditable,
+                                    decoration: InputDecoration(
+                                      labelStyle:
+                                          TextStyle(color: ColorUtils.white),
+                                      hintStyle:
+                                          TextStyle(color: ColorUtils.white),
+                                      counterText: '',
+                                      labelText: Strings.name,
+                                      hintText: Strings.name,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: ColorUtils.white),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: ColorUtils.white),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: ColorUtils.white),
+                                      ),
+                                    ),
+                                    onChanged: (value) {
+                                      loginResponse.name = value;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: TextField(
+                                    style: TextStyle(color: ColorUtils.white),
+                                    controller: TextEditingController()
+                                      ..text = loginResponse.email,
+                                    enabled: _isEditable,
+                                    maxLength: 50,
+                                    decoration: InputDecoration(
+                                      labelStyle:
+                                          TextStyle(color: ColorUtils.white),
+                                      hintStyle:
+                                          TextStyle(color: ColorUtils.white),
+                                      counterText: '',
+                                      labelText: Strings.email,
+                                      hintText: Strings.email,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: ColorUtils.white),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: ColorUtils.white),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: ColorUtils.white),
+                                      ),
+                                    ),
+                                    onChanged: (value) {
+                                      loginResponse.email = value;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: TextField(
+                                    style: TextStyle(color: ColorUtils.white),
+                                    controller: TextEditingController()
+                                      ..text = loginResponse.mobileNo,
+                                    maxLength: 15,
+                                    enabled: false,
+                                    decoration: InputDecoration(
+                                      labelStyle:
+                                          TextStyle(color: ColorUtils.white),
+                                      hintStyle:
+                                          TextStyle(color: ColorUtils.white),
+                                      counterText: '',
+                                      labelText: Strings.mobileNumber,
+                                      hintText: Strings.mobileNumber,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: ColorUtils.white),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: ColorUtils.white),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: ColorUtils.white),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 24,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _onTap();
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 55,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image:
+                                            AssetImage(ImageUtils.playButton),
+                                      ),
+                                    ),
+                                    child: TextWidget(
+                                      color: ColorUtils.white,
+                                      textSize: 16,
+                                      text: _isEditable
+                                          ? Strings.submit
+                                          : Strings.edit,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          InkWell(
-                            child: Icon(Icons.share),
-                            onTap: () {
-                              Share.share(
-                                  'download and install this app using ${loginResponse.referralCode} referral code and get 100 coins');
-                            },
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xff7c94b6),
-                      border: Border.all(
-                        color: ColorUtils.colorAccent,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  TextField(
-                    maxLength: 50,
-                    controller: TextEditingController()
-                      ..text = loginResponse.name,
-                    enabled: _isEditable,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.account_circle_rounded,
-                        color: ColorUtils.colorPrimary,
-                      ),
-                      counterText: '',
-                      labelText: Strings.name,
-                      hintText: Strings.name,
-                    ),
-                    onChanged: (value) {
-                      loginResponse.name = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  TextField(
-                    controller: TextEditingController()
-                      ..text = loginResponse.email,
-                    enabled: _isEditable,
-                    maxLength: 50,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.email_rounded,
-                        color: ColorUtils.colorPrimary,
-                      ),
-                      counterText: '',
-                      labelText: Strings.email,
-                      hintText: Strings.email,
-                    ),
-                    onChanged: (value) {
-                      loginResponse.email = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  TextField(
-                    controller: TextEditingController()
-                      ..text = loginResponse.mobileNo,
-                    maxLength: 15,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.phone_android_rounded,
-                        color: ColorUtils.colorPrimary,
-                      ),
-                      counterText: '',
-                      labelText: Strings.mobileNumber,
-                      hintText: Strings.mobileNumber,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  RaisedButton(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    onPressed: _onTap,
-                    color: ColorUtils.colorPrimary,
-                    child: TextWidget(
-                      color: ColorUtils.white,
-                      textSize: 16,
-                      text: _isEditable ? Strings.submit : Strings.edit,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  /*                InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(RouteNames.coin_history);
-                    },
-                    child: Card(
-                      child: TextWidget(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                        text: Strings.coinHistory,
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(RouteNames.instruction_to_play);
-                    },
-                    child: Card(
-                      child: TextWidget(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                        text: Strings.instructionToEarn,
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(RouteNames.accountVerification);
-                    },
-                    child: Card(
-                      child: TextWidget(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                        text: Strings.addKycDocument,
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      showAd();
-                    },
-                    child: Card(
-                      child: TextWidget(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                        text: Strings.earnMore,
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      if (loginResponse.balance > 150)
-                        Navigator.of(context)
-                            .pushNamed(RouteNames.withdraw)
-                            .then((value) => {getUserData(context)});
-                      else
-                        Util.showValidationdialog(context,
-                            'At least 150 coins are required to withdraw the coins.');
-                    },
-                    child: Card(
-                      color: loginResponse.balance > 100
-                          ? ColorUtils.colorPrimary
-                          : ColorUtils.lightGrey,
-                      child: TextWidget(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                        text: Strings.withdraw,
-                      ),
-                    ),
-                  ),*/
-                ],
-              ),
-            ),
-          );
+                ),
+        ],
+      ),
+    );
   }
 
   String getBannerAdUnitId() {

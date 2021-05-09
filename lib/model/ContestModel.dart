@@ -7,6 +7,7 @@ class ContestModel {
   int _maxWinner;
   String _matchTitle;
   String _result;
+  String _totalPoint;
   String _tournamentTitle;
   String _startTime;
   String _endTime;
@@ -32,6 +33,7 @@ class ContestModel {
       String team1Title,
       String team1Icon,
       String team2Title,
+      String totalPoint,
       String team2Icon}) {
     this._id = id;
     this._matchId = matchId;
@@ -45,10 +47,17 @@ class ContestModel {
     this._startTime = startTime;
     this._endTime = endTime;
     this._status = status;
+    this._totalPoint = totalPoint;
     this._team1Title = team1Title;
     this._team1Icon = team1Icon;
     this._team2Title = team2Title;
     this._team2Icon = team2Icon;
+  }
+
+  String get totalPoint => _totalPoint;
+
+  set totalPoint(String value) {
+    _totalPoint = value;
   }
 
   int get id => _id;
@@ -132,6 +141,7 @@ class ContestModel {
     _team1Icon = json['Team1Icon'];
     _team2Title = json['Team2Title'];
     _team2Icon = json['Team2Icon'];
+    _totalPoint = json['TotalPoint'].toString();
     _result = json['Result'];
   }
 
@@ -149,6 +159,7 @@ class ContestModel {
     data['StartTime'] = this._startTime;
     data['EndTime'] = this._endTime;
     data['Status'] = this._status;
+    data['TotalPoint'] = this._totalPoint;
     data['Team1Title'] = this._team1Title;
     data['Team1Icon'] = this._team1Icon;
     data['Team2Title'] = this._team2Title;

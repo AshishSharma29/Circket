@@ -35,7 +35,7 @@ class _JoinContestState extends State<JoinContest> {
         borderRadius: BorderRadius.circular(16),
       ),
       elevation: 0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.green,
       child: contentBox(context),
     );
   }
@@ -71,7 +71,7 @@ class _JoinContestState extends State<JoinContest> {
                     },
                     child: Icon(
                       Icons.close,
-                      color: ColorUtils.darkerGrey,
+                      color: ColorUtils.colorPrimary,
                       size: 20,
                     ),
                   ),
@@ -96,10 +96,7 @@ class _JoinContestState extends State<JoinContest> {
                       : Row(
                           children: [
                             Text(
-                              (loginResponseModel.balance -
-                                      widget.contestModel.entryFee)
-                                  .ceil()
-                                  .toString(),
+                              (loginResponseModel.balance).ceil().toString(),
                               style: TextStyle(fontSize: 14),
                               textAlign: TextAlign.center,
                             ),

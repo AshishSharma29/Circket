@@ -8,6 +8,7 @@ import 'package:cricquiz11/model/LoginResponseModel.dart';
 import 'package:cricquiz11/screens/home/CricketProvider.dart';
 import 'package:cricquiz11/screens/home/contest/JoinContest.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
+import 'package:cricquiz11/util/DashedLine.dart';
 import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
 import 'package:cricquiz11/util/image_strings.dart';
@@ -38,8 +39,6 @@ class _ContestListScreenState extends State<ContestListScreen> {
     super.initState();
     isLoading = true;
     Admob.initialize();
-    // RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("E8FDF12CB0D3B1AB7D6D6E2BF1B5502C"))
-    // Admob.initialize(testDeviceIds: ['E8FDF12CB0D3B1AB7D6D6E2BF1B5502C']);
     rewardAd = AdmobReward(
       adUnitId: getRewardBasedVideoAdUnitId(),
       listener: (AdmobAdEvent event, Map<String, dynamic> args) {
@@ -150,6 +149,7 @@ class _ContestListScreenState extends State<ContestListScreen> {
               ? Center(
                   child: TextWidget(
                     text: 'No match found',
+                    color: ColorUtils.white,
                   ),
                 )
               : ListView.builder(
@@ -157,61 +157,111 @@ class _ContestListScreenState extends State<ContestListScreen> {
                   itemCount: contestList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
+                      elevation: 3,
                       child: Container(
                         padding: EdgeInsets.only(
                             top: 8, bottom: 8, right: 8, left: 8),
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                TextWidget(
-                                  text: 'Prize',
-                                  color: ColorUtils.darkerGrey,
-                                  textSize: 14,
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: ColorUtils.greyContest,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8))),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        TextWidget(
+                                          padding: const EdgeInsets.all(8),
+                                          text:
+                                              'Winner : ${contestList[index].prize.ceil().toString()}',
+                                          color: ColorUtils.black,
+                                          textSize: 14,
+                                        ),
+                                        Image.asset(
+                                          ImageUtils.coin,
+                                          height: 15,
+                                          width: 15,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Row(
-                                  children: [
-                                    TextWidget(
-                                      textSize: 14,
-                                      text: contestList[index]
-                                          .entryFee
-                                          .ceil()
-                                          .toString(),
-                                      color: ColorUtils.darkerGrey,
-                                      textAlign: TextAlign.start,
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: ColorUtils.greyContest,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8))),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        TextWidget(
+                                          padding: const EdgeInsets.all(8),
+                                          text:
+                                              'Entry : ${contestList[index].entryFee.ceil().toString()}',
+                                          color: ColorUtils.black,
+                                          textSize: 14,
+                                        ),
+                                        Image.asset(
+                                          ImageUtils.coin,
+                                          height: 15,
+                                          width: 15,
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Image.asset(
-                                      ImageUtils.coin,
-                                      height: 15,
-                                      width: 15,
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ],
                             ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            DashedLine(
+                              height: 1,
+                              color: ColorUtils.darkerGrey,
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(children: [
-                                  TextWidget(
-                                    color: ColorUtils.black,
-                                    textSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    text: '${contestList[index].prize.ceil()}',
-                                  ),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
-                                  Image.asset(
-                                    ImageUtils.coin,
-                                    height: 15,
-                                    width: 15,
-                                  ),
-                                ]),
+                                Container(
+                                  width: 40.0,
+                                  height: 40.0,
+                                  decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              '${Constant.IMAGE_URL}${widget.argument['flag1']}'))),
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Container(
+                                  width: 40.0,
+                                  height: 40.0,
+                                  decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              '${Constant.IMAGE_URL}${widget.argument['flag2']}'))),
+                                ),
+                                Expanded(
+                                    child: SizedBox(
+                                  width: 8,
+                                )),
                                 if (loginResponse.balance != null &&
                                     contestList[index].entryFee <=
                                         loginResponse.balance)
@@ -236,15 +286,6 @@ class _ContestListScreenState extends State<ContestListScreen> {
                                 if (!(loginResponse.balance != null &&
                                     contestList[index].entryFee <=
                                         loginResponse.balance))
-                                  TextWidget(
-                                    textSize: 14,
-                                    text: 'Earn more',
-                                    color: ColorUtils.colorAccent,
-                                    textAlign: TextAlign.end,
-                                  ),
-                                if (!(loginResponse.balance != null &&
-                                    contestList[index].entryFee <=
-                                        loginResponse.balance))
                                   RaisedButton(
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -261,6 +302,15 @@ class _ContestListScreenState extends State<ContestListScreen> {
                                       )),
                               ],
                             ),
+                            /*if (!(loginResponse.balance != null &&
+                                contestList[index].entryFee <=
+                                    loginResponse.balance))
+                              TextWidget(
+                                textSize: 14,
+                                text: 'Earn more',
+                                color: ColorUtils.colorAccent,
+                                textAlign: TextAlign.end,
+                              ),*/
                           ],
                         ),
                       ),

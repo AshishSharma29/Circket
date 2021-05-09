@@ -1,7 +1,11 @@
+import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/screens/home/home/ContestListScreen.dart';
 import 'package:cricquiz11/util/colors.dart';
+import 'package:cricquiz11/util/image_strings.dart';
+import 'package:cricquiz11/util/route_name.dart';
 import 'package:flutter/material.dart';
+import 'package:toggle_bar/toggle_bar.dart';
 
 import 'MyContestScreen.dart';
 
@@ -20,44 +24,141 @@ class _ContestTabScreenState extends State<ContestTabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextWidget(
-          text: widget.argument['matchTitle'],
-          textSize: 16,
-          color: ColorUtils.white,
-        ),
-      ),
-      body: widget.argument['isUpcoming'] != null
-          ? Container(
-              child: Column(
+        body: widget.argument['isUpcoming'] != null
+            ? Stack(
                 children: [
-                  DefaultTabController(
-                    length: 2,
-                    child: TabBar(
-                      unselectedLabelColor: ColorUtils.black,
-                      labelColor: ColorUtils.colorPrimary,
-                      onTap: _onTap,
-                      tabs: [
-                        Tab(
-                          text: 'Contest',
+                  Container(
+                    child: Image.asset(
+                      ImageUtils.appBg,
+                      fit: BoxFit.cover,
+                      height: double.infinity,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                    ),
+                  ),
+                  Container(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 24,
                         ),
-                        Tab(
-                          text: 'My Contest',
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Image.asset(
+                                  ImageUtils.backArrow,
+                                  height: 32,
+                                  width: 32,
+                                ),
+                              ),
+                            ),
+                            TextWidget(
+                              padding: const EdgeInsets.all(24),
+                              color: ColorUtils.white,
+                              textSize: 16,
+                              fontWeight: FontStyles.bold,
+                              text: widget.argument['matchTitle'],
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(RouteNames.settings);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Image.asset(
+                                  ImageUtils.settings,
+                                  height: 32,
+                                  width: 32,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ToggleBar(
+                              labels: ["Contest", "My Contest"],
+                              selectedTabColor: ColorUtils.vColor,
+                              backgroundColor: ColorUtils.transparentPurple,
+                              borderRadius: 5,
+                              onSelectionUpdated: (index) =>
+                                  {_onTap(index)} // Do something with index
+                              ),
+                        ),
+                        Expanded(
+                          child: [
+                            ContestListScreen(widget.argument),
+                            MyContestScreen(widget.argument),
+                          ][_pageNumber],
+                        )
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: [
-                      ContestListScreen(widget.argument),
-                      MyContestScreen(widget.argument),
-                    ][_pageNumber],
-                  )
                 ],
-              ),
-            )
-          : MyContestScreen(widget.argument),
-    );
+              )
+            : Stack(children: [
+                Container(
+                  child: Image.asset(
+                    ImageUtils.appBg,
+                    fit: BoxFit.cover,
+                    height: double.infinity,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                  ),
+                ),
+                Container(
+                    child: Column(children: [
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Image.asset(
+                            ImageUtils.backArrow,
+                            height: 32,
+                            width: 32,
+                          ),
+                        ),
+                      ),
+                      TextWidget(
+                        padding: const EdgeInsets.all(24),
+                        color: ColorUtils.white,
+                        textSize: 16,
+                        fontWeight: FontStyles.bold,
+                        text: widget.argument['matchTitle'],
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(RouteNames.settings);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Image.asset(
+                            ImageUtils.settings,
+                            height: 32,
+                            width: 32,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(child: MyContestScreen(widget.argument))
+                ])),
+              ]));
   }
 
   void _onTap(int value) {

@@ -15,4 +15,5 @@ class RouteNames {
   static const accountVerification = '\account_verification';
 
   static const settings = '\settings';
+  static const onBoarding = '\onBoarding';
 }

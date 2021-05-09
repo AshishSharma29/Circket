@@ -1,7 +1,9 @@
+import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/MatchModel.dart';
 import 'package:cricquiz11/screens/home/my_matchs/match_row_common.dart';
 import 'package:cricquiz11/util/MatchStatus.dart';
+import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/constant.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/util.dart';
@@ -37,7 +39,10 @@ class _RunningMatchListState extends State<RunningMatchList> {
         : matchList.length == 0
             ? Center(
                 child: TextWidget(
-                  text: 'No upcoming match',
+                  color: ColorUtils.white,
+                  textSize: 18,
+                  fontWeight: FontStyles.bold,
+                  text: 'No running match',
                 ),
               )
             : ListView.builder(
@@ -53,6 +58,8 @@ class _RunningMatchListState extends State<RunningMatchList> {
                         'matchId': matchList[index].matchId.toString(),
                         'matchTitle':
                             matchList[index].tournamentTitle.toString(),
+                        'flag1': matchList[index].team1Icon.toString(),
+                        'flag2': matchList[index].team2Icon.toString(),
                       });
                     },
                     child: MatchRowCommon(match: matchList[index]),

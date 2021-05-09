@@ -42,7 +42,6 @@ class ImageUtils {
   static String vehicleHoursBg = _imagesRoot + 'Vehicle_hours_bg.png';
   static String resetPassword = _imagesRoot + 'reset_password.png';
   static String forgotPasswordBg = _imagesRoot + 'forgot_password_bg.png';
-
   static String changePassword = _imagesRoot + 'change_password.png';
   static String clockCircle = _imagesRoot + 'clock_circle.png';
   static String bgClock = _imagesRoot + 'bg_clock.png';
@@ -54,4 +53,25 @@ class ImageUtils {
   static String earnMore = _imagesRoot + 'earn_more.png';
   static String userIcon = _imagesRoot + 'user_icon.png';
   static String exit = _imagesRoot + 'exit.png';
+  static String appBg = _imagesRoot + 'app_bg.png';
+  static String trophy = _imagesRoot + 'trophy.png';
+  static String logo = _imagesRoot + 'logo.png';
+  static String banner = _imagesRoot + 'banner.png';
+  static String earn = _imagesRoot + 'earn.png';
+  static String homeSelect = _imagesRoot + 'home_select.png';
+  static String homeUnselect = _imagesRoot + 'home_unselect.png';
+  static String howToPlay = _imagesRoot + 'how_to_play.png';
+  static String img = _imagesRoot + 'img.png';
+  static String kyc = _imagesRoot + 'kyc.png';
+  static String myMatchSelect = _imagesRoot + 'my_match_select.png';
+  static String myMatchUnselect = _imagesRoot + 'my_match_unselect.png';
+  static String profileSelect = _imagesRoot + 'profile_select.png';
+  static String profileUnselect = _imagesRoot + 'profile_unselect.png';
+  static String settings = _imagesRoot + 'settings.png';
+  static String playButton = _imagesRoot + 'play_btn.png';
+  static String buttonBg = _imagesRoot + 'btn_lg.png';
+  static String textbox = _imagesRoot + 'textbox.png';
+  static String text = _imagesRoot + 'text.png';
+  static String redDot = _imagesRoot + 'red_dot.png';
+  static String whiteDot = _imagesRoot + 'white_dot.png';
 }

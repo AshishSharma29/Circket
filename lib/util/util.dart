@@ -4,6 +4,7 @@ import 'package:cricquiz11/common_widget/ColorLoader.dart';
 import 'package:cricquiz11/common_widget/DotType.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Util {
@@ -14,6 +15,7 @@ class Util {
   }
 
   Util._internal();
+
   static void showValidationdialog(BuildContext context, String message) {
     // set up the button
     Widget okButton = FlatButton(
@@ -37,6 +39,31 @@ class Util {
         return alert;
       },
     );
+  }
+
+  static void closeApplication(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(Strings.appName),
+            content: Text("Are you sure you want to close the application?"),
+            actions: [
+              FlatButton(
+                child: Text(Strings.cancel),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text(Strings.ok),
+                onPressed: () {
+                  SystemNavigator.pop();
+                },
+              )
+            ],
+          );
+        });
   }
 
   Widget getLoader() {

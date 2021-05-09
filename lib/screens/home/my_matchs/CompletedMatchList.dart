@@ -1,8 +1,10 @@
+import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/MatchModel.dart';
 import 'package:cricquiz11/screens/home/CricketProvider.dart';
 import 'package:cricquiz11/screens/home/my_matchs/match_row_common.dart';
 import 'package:cricquiz11/util/MatchStatus.dart';
+import 'package:cricquiz11/util/colors.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:cricquiz11/util/util.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +40,10 @@ class _CompletedMatchListState extends State<CompletedMatchList> {
         : matchList.length == 0
             ? Center(
                 child: TextWidget(
-                  text: 'No match completed',
+                  color: ColorUtils.white,
+                  textSize: 18,
+                  fontWeight: FontStyles.bold,
+                  text: 'No completed match',
                 ),
               )
             : ListView.builder(
@@ -54,6 +59,8 @@ class _CompletedMatchListState extends State<CompletedMatchList> {
                         'matchId': matchList[index].matchId.toString(),
                         'matchTitle':
                             matchList[index].tournamentTitle.toString(),
+                        'flag1': matchList[index].team1Icon.toString(),
+                        'flag2': matchList[index].team2Icon.toString(),
                       });
                     },
                     child: MatchRowCommon(match: matchList[index]),

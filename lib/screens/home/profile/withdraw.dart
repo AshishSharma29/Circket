@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/LoginResponseModel.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
@@ -32,106 +33,161 @@ class _WithdrawState extends State<Withdraw> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextWidget(
-          text: 'Withdraw coins',
-          color: ColorUtils.white,
-        ),
-      ),
-      body: Column(
+      body: Stack(
         children: [
           Container(
-            margin: const EdgeInsets.all(15.0),
-            padding: const EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-                border: Border.all(color: ColorUtils.colorAccent)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            child: Image.asset(
+              ImageUtils.appBg,
+              fit: BoxFit.cover,
+              height: double.infinity,
+              width: double.infinity,
+              alignment: Alignment.center,
+            ),
+          ),
+          Column(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Image.asset(
+                        ImageUtils.backArrow,
+                        height: 32,
+                        width: 32,
+                      ),
+                    ),
+                  ),
+                  TextWidget(
+                    padding: const EdgeInsets.all(24),
+                    color: ColorUtils.white,
+                    textSize: 18,
+                    fontWeight: FontStyles.bold,
+                    text: Strings.withdraw,
+                  ),
+                  SizedBox(
+                    width: 32,
+                  )
+                ],
+              ),
+              Container(
+                margin: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                    border: Border.all(color: ColorUtils.colorAccent)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Image.asset(
-                      ImageUtils.coin,
-                      width: 25,
-                      height: 25,
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          ImageUtils.coin,
+                          width: 25,
+                          height: 25,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        TextWidget(
+                          textAlign: TextAlign.center,
+                          fontWeight: FontStyles.bold,
+                          text: loginResponse == null
+                              ? ''
+                              : loginResponse.balance.ceil().toString(),
+                          color: ColorUtils.white,
+                          textSize: 24,
+                        ),
+                      ],
                     ),
                     SizedBox(
-                      width: 8,
+                      height: 12,
                     ),
-                    TextWidget(
-                      textAlign: TextAlign.center,
-                      text: loginResponse == null
-                          ? ''
-                          : loginResponse.balance.ceil().toString(),
-                      color: ColorUtils.colorPrimary,
-                      textSize: 24,
+                    TextField(
+                      maxLength: 3,
+                      style: TextStyle(color: ColorUtils.white),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        prefixIcon: Image.asset(
+                          ImageUtils.coin,
+                          height: 12,
+                          width: 12,
+                        ),
+                        counterText: '',
+                        labelText: Strings.redeemCoins,
+                        hintStyle: TextStyle(color: ColorUtils.white),
+                        labelStyle: TextStyle(color: ColorUtils.white),
+                        hintText: Strings.redeemCoins,
+                      ),
+                      onChanged: (value) {
+                        this.amount = value;
+                      },
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        if (amount == null || amount.isEmpty) {
+                          Util.showValidationdialog(
+                              context, 'Please enter coins');
+                        } else if (int.parse(amount) % 50 != 0) {
+                          Util.showValidationdialog(
+                              context, 'Please enter count in multiple of 50.');
+                        } else if (loginResponse != null &&
+                            !loginResponse.paymentRequestPending &&
+                            loginResponse.balance > int.parse(amount) &&
+                            loginResponse.balance > 100)
+                          withdrawAmount(context);
+                        else if (loginResponse.paymentRequestPending) {
+                          Util.showValidationdialog(
+                              context, 'Payment request pending for approval.');
+                        } else
+                          Util.showValidationdialog(context,
+                              '150 coins should be in your wallet to create withdraw request.');
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 55,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(ImageUtils.playButton),
+                          ),
+                        ),
+                        child: TextWidget(
+                          color: ColorUtils.white,
+                          textSize: 16,
+                          text: Strings.withdraw,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    if (loginResponse != null &&
+                        loginResponse.paymentRequestPending)
+                      TextWidget(
+                        color: ColorUtils.colorAccent,
+                        textSize: 12,
+                        text: Strings.alreadyRedeemed,
+                      ),
+                    SizedBox(
+                      height: 20,
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 12,
-                ),
-                TextField(
-                  maxLength: 3,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    prefixIcon: Image.asset(
-                      ImageUtils.coin,
-                      height: 12,
-                      width: 12,
-                    ),
-                    counterText: '',
-                    labelText: Strings.redeemCoins,
-                    hintText: Strings.redeemCoins,
-                  ),
-                  onChanged: (value) {
-                    this.amount = value;
-                  },
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: loginResponse != null &&
-                            loginResponse.paymentRequestPending
-                        ? ColorUtils.darkerGrey
-                        : ColorUtils.colorPrimary,
-                  ),
-                  onPressed: () {
-                    if (int.parse(amount) % 50 != 0) {
-                      Util.showValidationdialog(
-                          context, 'Please enter count in multiple of 50.');
-                    } else if (loginResponse != null &&
-                        !loginResponse.paymentRequestPending &&
-                        int.parse(amount) > (loginResponse.balance))
-                      withdrawAmount(context);
-                    else
-                      Util.showValidationdialog(context,
-                          '150 coins should be in your wallet to create withdraw request.');
-                  },
-                  child: TextWidget(
-                    color: ColorUtils.white,
-                    textSize: 16,
-                    text: Strings.withdraw,
-                  ),
-                ),
-                if (loginResponse != null &&
-                    loginResponse.paymentRequestPending)
-                  TextWidget(
-                    color: ColorUtils.colorAccent,
-                    textSize: 12,
-                    text: Strings.alreadyRedeemed,
-                  ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
@@ -148,8 +204,25 @@ class _WithdrawState extends State<Withdraw> {
           "Amount": amount,
         });
     getUserData(context);
-    Util.showValidationdialog(
-        context, 'Redeem request submitted successfully.');
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(Strings.appName),
+          content: Text("Redeem request submitted successfully."),
+          actions: [
+            FlatButton(
+              child: Text(Strings.ok),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   SharedPreferences prefs;

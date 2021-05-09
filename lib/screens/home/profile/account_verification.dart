@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/LoginResponseModel.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
@@ -37,135 +38,192 @@ class _AccountVerificationState extends State<AccountVerification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextWidget(
-          text: 'Account details',
-          color: ColorUtils.white,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Image.asset(
-                ImageUtils.APP_LOGO_BANNER,
-                height: 120,
-                width: 360,
-              ),
-              TextField(
-                maxLength: 20,
-                controller: TextEditingController()
-                  ..text = accountDetailModel.accountNumber,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  counterText: '',
-                  labelText: Strings.accountNumber,
-                  hintText: Strings.accountNumber,
-                ),
-                onChanged: (value) {
-                  accountDetailModel.accountNumber = value;
-                },
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextField(
-                maxLength: 50,
-                controller: TextEditingController()
-                  ..text = accountDetailModel.accountHolderName,
-                decoration: InputDecoration(
-                  counterText: '',
-                  labelText: Strings.accountHolderName,
-                  hintText: Strings.accountHolderName,
-                ),
-                onChanged: (value) {
-                  accountDetailModel.accountHolderName = value;
-                },
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextField(
-                maxLength: 11,
-                controller: TextEditingController()
-                  ..text = accountDetailModel.iFSCCode,
-                decoration: InputDecoration(
-                  counterText: '',
-                  labelText: Strings.ifscCode,
-                  hintText: Strings.ifscCode,
-                ),
-                onChanged: (value) {
-                  accountDetailModel.iFSCCode = value;
-                },
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextField(
-                maxLength: 50,
-                controller: TextEditingController()
-                  ..text = accountDetailModel.bankName,
-                decoration: InputDecoration(
-                  counterText: '',
-                  labelText: Strings.bankName,
-                  hintText: Strings.bankName,
-                ),
-                onChanged: (value) {
-                  accountDetailModel.bankName = value;
-                },
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextField(
-                maxLength: 50,
-                controller: TextEditingController()
-                  ..text = accountDetailModel.bankBranch,
-                decoration: InputDecoration(
-                  counterText: '',
-                  labelText: Strings.branchName,
-                  hintText: Strings.branchName,
-                ),
-                onChanged: (value) {
-                  accountDetailModel.bankBranch = value;
-                },
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextField(
-                maxLength: 50,
-                controller: TextEditingController()
-                  ..text = accountDetailModel.state,
-                decoration: InputDecoration(
-                  counterText: '',
-                  labelText: Strings.state,
-                  hintText: Strings.state,
-                ),
-                onChanged: (value) {
-                  accountDetailModel.state = value;
-                },
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              if (accountDetailModel.id == 0)
-                RaisedButton(
-                  onPressed: () {
-                    submitDetails(context);
-                  },
-                  color: ColorUtils.colorPrimary,
-                  child: TextWidget(
-                    color: ColorUtils.white,
-                    textSize: 14,
-                    text: Strings.submit,
-                  ),
-                ),
-            ],
+      body: Stack(
+        children: [
+          Container(
+            child: Image.asset(
+              ImageUtils.appBg,
+              fit: BoxFit.cover,
+              height: double.infinity,
+              width: double.infinity,
+              alignment: Alignment.center,
+            ),
           ),
-        ),
+          SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Image.asset(
+                            ImageUtils.backArrow,
+                            height: 32,
+                            width: 32,
+                          ),
+                        ),
+                      ),
+                      TextWidget(
+                        padding: const EdgeInsets.all(24),
+                        color: ColorUtils.white,
+                        textSize: 18,
+                        fontWeight: FontStyles.bold,
+                        text: 'Account details',
+                      ),
+                      SizedBox(
+                        width: 32,
+                      ),
+                    ],
+                  ),
+                  TextField(
+                    enabled: accountDetailModel.id == 0,
+                    maxLength: 20,
+                    style: TextStyle(color: ColorUtils.white),
+                    controller: TextEditingController()
+                      ..text = accountDetailModel.accountNumber,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelStyle: TextStyle(color: ColorUtils.white),
+                      hintStyle: TextStyle(color: ColorUtils.white),
+                      counterText: '',
+                      labelText: Strings.accountNumber,
+                      hintText: Strings.accountNumber,
+                    ),
+                    onChanged: (value) {
+                      accountDetailModel.accountNumber = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    enabled: accountDetailModel.id == 0,
+                    maxLength: 50,
+                    style: TextStyle(color: ColorUtils.white),
+                    controller: TextEditingController()
+                      ..text = accountDetailModel.accountHolderName,
+                    decoration: InputDecoration(
+                      labelStyle: TextStyle(color: ColorUtils.white),
+                      hintStyle: TextStyle(color: ColorUtils.white),
+                      counterText: '',
+                      labelText: Strings.accountHolderName,
+                      hintText: Strings.accountHolderName,
+                    ),
+                    onChanged: (value) {
+                      accountDetailModel.accountHolderName = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    enabled: accountDetailModel.id == 0,
+                    maxLength: 11,
+                    style: TextStyle(color: ColorUtils.white),
+                    controller: TextEditingController()
+                      ..text = accountDetailModel.iFSCCode,
+                    decoration: InputDecoration(
+                      labelStyle: TextStyle(color: ColorUtils.white),
+                      hintStyle: TextStyle(color: ColorUtils.white),
+                      counterText: '',
+                      labelText: Strings.ifscCode,
+                      hintText: Strings.ifscCode,
+                    ),
+                    onChanged: (value) {
+                      accountDetailModel.iFSCCode = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    enabled: accountDetailModel.id == 0,
+                    maxLength: 50,
+                    style: TextStyle(color: ColorUtils.white),
+                    controller: TextEditingController()
+                      ..text = accountDetailModel.bankName,
+                    decoration: InputDecoration(
+                      labelStyle: TextStyle(color: ColorUtils.white),
+                      hintStyle: TextStyle(color: ColorUtils.white),
+                      counterText: '',
+                      labelText: Strings.bankName,
+                      hintText: Strings.bankName,
+                    ),
+                    onChanged: (value) {
+                      accountDetailModel.bankName = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    enabled: accountDetailModel.id == 0,
+                    maxLength: 50,
+                    style: TextStyle(color: ColorUtils.white),
+                    controller: TextEditingController()
+                      ..text = accountDetailModel.bankBranch,
+                    decoration: InputDecoration(
+                      labelStyle: TextStyle(color: ColorUtils.white),
+                      hintStyle: TextStyle(color: ColorUtils.white),
+                      counterText: '',
+                      labelText: Strings.branchName,
+                      hintText: Strings.branchName,
+                    ),
+                    onChanged: (value) {
+                      accountDetailModel.bankBranch = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    enabled: accountDetailModel.id == 0,
+                    maxLength: 50,
+                    style: TextStyle(color: ColorUtils.white),
+                    controller: TextEditingController()
+                      ..text = accountDetailModel.state,
+                    decoration: InputDecoration(
+                      labelStyle: TextStyle(color: ColorUtils.white),
+                      hintStyle: TextStyle(color: ColorUtils.white),
+                      counterText: '',
+                      labelText: Strings.state,
+                      hintText: Strings.state,
+                    ),
+                    onChanged: (value) {
+                      accountDetailModel.state = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  if (accountDetailModel.id == 0)
+                    RaisedButton(
+                      onPressed: () {
+                        submitDetails(context);
+                      },
+                      color: ColorUtils.colorPrimary,
+                      child: TextWidget(
+                        color: ColorUtils.white,
+                        textSize: 14,
+                        text: Strings.submit,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

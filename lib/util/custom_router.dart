@@ -7,6 +7,7 @@ import 'package:cricquiz11/screens/home/profile/account_verification.dart';
 import 'package:cricquiz11/screens/home/profile/settings_screen.dart';
 import 'package:cricquiz11/screens/home/profile/withdraw.dart';
 import 'package:cricquiz11/screens/login/LoginScreen.dart';
+import 'package:cricquiz11/screens/login/on_boarding_screen.dart';
 import 'package:cricquiz11/screens/login/otp_verification.dart';
 import 'package:cricquiz11/util/route_name.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,10 @@ class CustomRouter {
       case RouteNames.accountVerification:
         return MaterialPageRoute(builder: (_) {
           return AccountVerification();
+        });
+      case RouteNames.onBoarding:
+        return MaterialPageRoute(builder: (_) {
+          return OnBoardingScreen();
         });
       default:
         return MaterialPageRoute(

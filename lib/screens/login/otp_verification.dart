@@ -42,6 +42,8 @@ class _OtpVerificationState extends State<OtpVerification> {
   }
 
   TextEditingController _pinEditingController = TextEditingController(text: '');
+  ColorBuilder _solidColor =
+      PinListenColorBuilder(Colors.grey, Colors.grey[400]);
 
   @override
   Widget build(BuildContext context) {
@@ -52,165 +54,180 @@ class _OtpVerificationState extends State<OtpVerification> {
           children: [
             Container(
               child: Image.asset(
-                ImageUtils.greenBg,
+                ImageUtils.appBg,
                 fit: BoxFit.cover,
-                height: double.infinity,
-                width: double.infinity,
                 alignment: Alignment.center,
               ),
             ),
-            SingleChildScrollView(
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Card(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          alignment: Alignment.center,
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                ImageUtils.APP_LOGO_BANNER,
-                                height: 120,
-                                width: 360,
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              TextWidget(
-                                text: Strings.verification,
-                                textSize: 24,
-                                fontWeight: FontStyles.bold,
-                                color: ColorUtils.colorPrimary,
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              TextWidget(
-                                textAlign: TextAlign.center,
-                                padding: EdgeInsets.symmetric(horizontal: 40),
-                                text:
-                                    'code has been sent On ${args[Constant.mobileNumber]}',
-                                textSize: 18,
-                                fontWeight: FontStyles.regular,
-                                color: ColorUtils.black,
-                              ),
-                              SizedBox(
-                                height: 24,
-                              ),
-                              PinInputTextField(
-                                pinLength: 6,
-                                decoration: BoxLooseDecoration(
-                                  strokeColorBuilder: PinListenColorBuilder(
-                                      ColorUtils.colorPrimary,
-                                      ColorUtils.colorAccent),
-                                  /*bgColorBuilder: _solidEnable ? _solidColor : null,*/
-                                  obscureStyle: ObscureStyle(
-                                    isTextObscure: true,
-                                    obscureText: '*',
-                                  ),
-                                  hintText: '000000',
-                                ),
-                                controller: _pinEditingController,
-                                textInputAction: TextInputAction.go,
-                                enabled: true,
-                                keyboardType: TextInputType.text,
-                                textCapitalization:
-                                    TextCapitalization.characters,
-                                onSubmit: (pin) {
-                                  debugPrint('submit pin:$pin');
-                                },
-                                onChanged: (pin) {
-                                  debugPrint('onChanged execute. pin:$pin');
-                                },
-                                enableInteractiveSelection: false,
-                                cursor: Cursor(
-                                  width: 2,
-                                  color: ColorUtils.colorAccent,
-                                  radius: Radius.circular(1),
-                                  enabled: true,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              TextField(
-                                maxLength: 8,
-                                controller: referralController,
-                                decoration: InputDecoration(
-                                  counterText: '',
-                                  hintText: 'Referral code(Optional)',
-                                ),
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              TextWidget(
-                                textAlign: TextAlign.center,
-                                padding: EdgeInsets.symmetric(horizontal: 40),
-                                text: Strings.didNotReceiveCode,
-                                textSize: 12,
-                                fontWeight: FontStyles.regular,
-                                color: ColorUtils.colorAccent,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  sendOtp(
-                                      widget.arguments[Constant.mobileNumber]);
-                                },
-                                child: TextWidget(
-                                  textAlign: TextAlign.center,
-                                  padding: EdgeInsets.symmetric(horizontal: 40),
-                                  text: Strings.requestAgain,
-                                  textSize: 16,
-                                  fontWeight: FontStyles.bold,
-                                  color: ColorUtils.colorAccent,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                            ],
-                          ),
-                        ),
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 80,
+                  ),
+                  Image.asset(
+                    ImageUtils.APP_LOGO_BANNER,
+                    height: 120,
+                    width: 360,
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Card(
+                      color: Colors.black26,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(12.0),
                       ),
-                    ),
-                    isLoading
-                        ? Util().getLoader()
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: RaisedButton(
-                                shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(30.0),
-                                ),
-                                padding: EdgeInsets.all(12),
-                                onPressed: () {
-                                  verifyOtp(_pinEditingController.text, context,
-                                      '+91' + args[Constant.mobileNumber]);
-                                },
-                                color: ColorUtils.colorAccent,
-                                child: TextWidget(
-                                  color: ColorUtils.white,
-                                  text: 'Verify',
-                                  textSize: 14,
-                                  fontWeight: FontWeight.bold,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 16,
+                            ),
+                            TextWidget(
+                              text: Strings.verification,
+                              textSize: 24,
+                              fontWeight: FontStyles.bold,
+                              color: ColorUtils.white,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            TextWidget(
+                              textAlign: TextAlign.center,
+                              padding: EdgeInsets.symmetric(horizontal: 40),
+                              text:
+                                  'code has been sent On ${args[Constant.mobileNumber]}',
+                              textSize: 18,
+                              fontWeight: FontStyles.regular,
+                              color: ColorUtils.white,
+                            ),
+                            SizedBox(
+                              height: 24,
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: 40,
+                                child: PinInputTextField(
+                                  pinLength: 6,
+                                  decoration: BoxLooseDecoration(
+                                    strokeColorBuilder: PinListenColorBuilder(
+                                        ColorUtils.white, ColorUtils.white),
+                                    bgColorBuilder: _solidColor,
+                                    obscureStyle: ObscureStyle(
+                                      isTextObscure: true,
+                                      obscureText: '*',
+                                    ),
+                                    hintText: '000000',
+                                  ),
+                                  controller: _pinEditingController,
+                                  textInputAction: TextInputAction.go,
+                                  enabled: true,
+                                  keyboardType: TextInputType.number,
+                                  textCapitalization:
+                                      TextCapitalization.characters,
+                                  onSubmit: (pin) {
+                                    debugPrint('submit pin:$pin');
+                                  },
+                                  onChanged: (pin) {
+                                    debugPrint('onChanged execute. pin:$pin');
+                                  },
+                                  enableInteractiveSelection: false,
+                                  cursor: Cursor(
+                                    width: 2,
+                                    color: ColorUtils.colorAccent,
+                                    radius: Radius.circular(1),
+                                    enabled: true,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                    SizedBox(
-                      height: 16,
-                    )
-                  ],
-                ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            TextField(
+                              maxLength: 8,
+                              controller: referralController,
+                              decoration: InputDecoration(
+                                  counterText: '',
+                                  hintText: 'Referral code(Optional)',
+                                  hintStyle:
+                                      TextStyle(color: ColorUtils.white)),
+                              style: TextStyle(color: ColorUtils.white),
+                              cursorColor: ColorUtils.white,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            TextWidget(
+                              textAlign: TextAlign.center,
+                              padding: EdgeInsets.symmetric(horizontal: 40),
+                              text: Strings.didNotReceiveCode,
+                              textSize: 12,
+                              fontWeight: FontStyles.regular,
+                              color: ColorUtils.white,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                sendOtp(
+                                    widget.arguments[Constant.mobileNumber]);
+                              },
+                              child: TextWidget(
+                                textAlign: TextAlign.center,
+                                padding: EdgeInsets.symmetric(horizontal: 40),
+                                text: Strings.requestAgain,
+                                textSize: 16,
+                                fontWeight: FontStyles.bold,
+                                color: ColorUtils.white,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            isLoading
+                                ? Util().getLoader()
+                                : Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 32),
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: RaisedButton(
+                                        shape: new RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(30.0),
+                                        ),
+                                        padding: EdgeInsets.all(12),
+                                        onPressed: () {
+                                          verifyOtp(
+                                              _pinEditingController.text,
+                                              context,
+                                              '+91' +
+                                                  args[Constant.mobileNumber]);
+                                        },
+                                        color: ColorUtils.colorAccent,
+                                        child: TextWidget(
+                                          color: ColorUtils.white,
+                                          text: 'Verify',
+                                          textSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                            SizedBox(
+                              height: 16,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             )
           ],

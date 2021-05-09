@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:cricquiz11/common_widget/font_style.dart';
 import 'package:cricquiz11/common_widget/text_widget.dart';
 import 'package:cricquiz11/model/question_list_model.dart';
 import 'package:cricquiz11/model/update_answer_model.dart';
 import 'package:cricquiz11/util/ApiConstant.dart';
 import 'package:cricquiz11/util/colors.dart';
+import 'package:cricquiz11/util/image_strings.dart';
 import 'package:cricquiz11/util/network_util.dart';
 import 'package:cricquiz11/util/strings.dart';
 import 'package:cricquiz11/util/util.dart';
@@ -27,152 +29,259 @@ class _QuestionsDataState extends State<QuestionsData> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Container(
-          margin: EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                Strings.question,
-                style: TextStyle(fontSize: 18),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                widget.questionListModel.questions[_questionIndex].title,
-                style: TextStyle(fontSize: 14),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              for (int i = 1;
-                  i <=
-                      widget.questionListModel.questions[_questionIndex]
-                          .questionAnswers.length;
-                  i++)
-                ListTile(
-                  title: Text(
-                    '${widget.questionListModel.questions[_questionIndex].questionAnswers[i - 1].optionTitle}',
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
-                        color: widget
-                                    .questionListModel
-                                    .questions[_questionIndex]
-                                    .questionAnswers[i - 1]
-                                    .optionId ==
+        Expanded(
+          flex: 1,
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  widget.questionListModel.questions[_questionIndex].title,
+                  style: TextStyle(fontSize: 16, color: ColorUtils.white),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Column(
+                  children: [
+                    for (int i = 1;
+                        i <=
+                            widget.questionListModel.questions[_questionIndex]
+                                .questionAnswers.length;
+                        i++)
+                      ListTile(
+                        title: InkWell(
+                          onTap: () {
+                            if (widget.questionListModel.isEditable) {
+                              for (int j = 0;
+                                  j <
+                                      widget
+                                          .questionListModel
+                                          .questions[_questionIndex]
+                                          .questionAnswers
+                                          .length;
+                                  j++)
                                 widget
-                                    .questionListModel
-                                    .questions[_questionIndex]
-                                    .questionAnswers[i - 1]
-                                    .correctAnswer
-                            ? ColorUtils.colorPrimary
-                            : Colors.black),
-                  ),
-                  leading: Radio(
-                    value: widget.questionListModel.questions[_questionIndex]
-                        .questionAnswers[i - 1].optionId,
-                    groupValue: widget
-                        .questionListModel
-                        .questions[_questionIndex]
-                        .questionAnswers[i - 1]
-                        .selectedAnswer,
-                    activeColor: ColorUtils.colorPrimary,
-                    onChanged: !widget.questionListModel.isEditable
-                        ? null
-                        : (int value) {
-                            for (int j = 0;
-                                j <
+                                        .questionListModel
+                                        .questions[_questionIndex]
+                                        .questionAnswers[j]
+                                        .selectedAnswer =
                                     widget
                                         .questionListModel
                                         .questions[_questionIndex]
-                                        .questionAnswers
-                                        .length;
-                                j++)
-                              widget.questionListModel.questions[_questionIndex]
-                                      .questionAnswers[j].selectedAnswer =
-                                  widget
-                                      .questionListModel
-                                      .questions[_questionIndex]
-                                      .questionAnswers[i - 1]
-                                      .optionId;
-                            setState(() {});
+                                        .questionAnswers[i - 1]
+                                        .optionId;
+                              setState(() {});
+                            }
                           },
-                  ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                                color: widget
+                                            .questionListModel
+                                            .questions[_questionIndex]
+                                            .questionAnswers[i - 1]
+                                            .selectedAnswer ==
+                                        widget
+                                            .questionListModel
+                                            .questions[_questionIndex]
+                                            .questionAnswers[i - 1]
+                                            .optionId
+                                    ? ColorUtils.vColor
+                                    : Colors.white24,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            child: Text(
+                              '${widget.questionListModel.questions[_questionIndex].questionAnswers[i - 1].optionTitle}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(
+                                    color: widget
+                                                .questionListModel
+                                                .questions[_questionIndex]
+                                                .questionAnswers[i - 1]
+                                                .optionId ==
+                                            widget
+                                                .questionListModel
+                                                .questions[_questionIndex]
+                                                .questionAnswers[i - 1]
+                                                .correctAnswer
+                                        ? ColorUtils.colorPrimary
+                                        : Colors.white,
+                                  ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ],
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+              ],
+            ), //Text
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              if (_questionIndex != 0)
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Container(
+                            padding: const EdgeInsets.all(16.0),
+                            alignment: Alignment.center,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(ImageUtils.playButton),
+                              ),
+                            ),
+                            child: TextWidget(
+                              text: "Previous",
+                              textAlign: TextAlign.center,
+                              textSize: 16,
+                              color: ColorUtils.white,
+                              fontWeight: FontStyles.bold,
+                            ) // button text
+                            ),
+                      ),
+                      onTap: () {
+                        _questionIndex--;
+                        setState(() {});
+                      }),
                 ),
               SizedBox(
-                height: 30,
+                height: 16,
               ),
+              if (_questionIndex !=
+                  widget.questionListModel.questions.length - 1)
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Container(
+                            padding: const EdgeInsets.all(16.0),
+                            alignment: Alignment.center,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(ImageUtils.playButton),
+                              ),
+                            ),
+                            child: TextWidget(
+                              text: "Next",
+                              textAlign: TextAlign.center,
+                              textSize: 16,
+                              color: ColorUtils.white,
+                              fontWeight: FontStyles.bold,
+                            ) // button text
+                            ),
+                      ),
+                      onTap: () {
+                        bool isSelected = false;
+                        for (int j = 0;
+                            j <
+                                widget
+                                    .questionListModel
+                                    .questions[_questionIndex]
+                                    .questionAnswers
+                                    .length;
+                            j++) {
+                          if (widget.questionListModel.questions[_questionIndex]
+                                  .questionAnswers[j].selectedAnswer !=
+                              0) {
+                            isSelected = true;
+                            break;
+                          }
+                        }
+                        if (!isSelected) {
+                          Util.showValidationdialog(
+                              context, "Please select an option to continue");
+                          return;
+                        }
+                        _questionIndex++;
+                        setState(() {});
+                      }),
+                ),
+              if (_questionIndex ==
+                  widget.questionListModel.questions.length - 1)
+                Expanded(
+                  flex: 1,
+                  child: GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Container(
+                            padding: const EdgeInsets.all(16.0),
+                            alignment: Alignment.center,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(ImageUtils.playButton),
+                              ),
+                            ),
+                            child: TextWidget(
+                              text: "Finish",
+                              textAlign: TextAlign.center,
+                              textSize: 16,
+                              color: ColorUtils.white,
+                              fontWeight: FontStyles.bold,
+                            ) // button text
+                            ),
+                      ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(Strings.appName),
+                              content: Text(
+                                  "Are you sure you want to submit the answers?"),
+                              actions: [
+                                FlatButton(
+                                  child: Text(Strings.cancel),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text(Strings.ok),
+                                  onPressed: () {
+                                    onQuestionSubmit(context);
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      }),
+                ),
             ],
-          ), //Text
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            if (_questionIndex != 0)
-              RaisedButton(
-                  color: ColorUtils.colorPrimary,
-                  onPressed: () {
-                    _questionIndex--;
-                    setState(() {});
-                  },
-                  child: TextWidget(
-                    color: ColorUtils.white,
-                    text: 'Previous',
-                  )),
-            if (_questionIndex != widget.questionListModel.questions.length - 1)
-              RaisedButton(
-                  color: ColorUtils.colorPrimary,
-                  onPressed: () {
-                    bool isSelected = false;
-                    for (int j = 0;
-                        j <
-                            widget.questionListModel.questions[_questionIndex]
-                                .questionAnswers.length;
-                        j++) {
-                      if (widget.questionListModel.questions[_questionIndex]
-                              .questionAnswers[j].selectedAnswer !=
-                          0) {
-                        isSelected = true;
-                        break;
-                      }
-                    }
-                    if (!isSelected) {
-                      Util.showValidationdialog(
-                          context, "Please select an option to continue");
-                      return;
-                    }
-                    _questionIndex++;
-                    setState(() {});
-                  },
-                  child: TextWidget(
-                    color: ColorUtils.white,
-                    text: 'Next',
-                  )),
-            if (_questionIndex == widget.questionListModel.questions.length - 1)
-              RaisedButton(
-                  color: ColorUtils.colorPrimary,
-                  onPressed: () {
-                    onQuestionSubmit(context);
-
-                    Navigator.of(context).pop();
-                  },
-                  child: TextWidget(
-                    color: ColorUtils.white,
-                    text: 'Finish',
-                  )),
-          ],
+          ),
         )
       ],
-    ));
+    );
   }
 
   Future<void> onQuestionSubmit(BuildContext context) async {
+    if (!widget.questionListModel.isEditable) {
+      Navigator.of(context).pop();
+      return;
+    }
     List<UpdateAnswerModel> updateAnswerModels = List();
     for (int questionNumber = 0;
         questionNumber < widget.questionListModel.questions.length;

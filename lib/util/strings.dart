@@ -80,4 +80,6 @@ class Strings {
   static var state = 'State';
 
   static var logout = 'Logout';
+
+  static var settings = 'Settings';
 }

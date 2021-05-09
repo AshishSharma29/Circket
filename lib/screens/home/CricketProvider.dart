@@ -45,6 +45,8 @@ class CricketProvider with ChangeNotifier {
 
   Future<List<ContestModel>> getMyConstestList(
       BuildContext context, String matchId, String userId) async {
+    var req = {'MatchId': matchId, 'UserId': userId};
+    print(req);
     var response = await NetworkUtil.callPostApi(
         context: context,
         apiName: ApiConstant.myContest,
@@ -55,6 +57,7 @@ class CricketProvider with ChangeNotifier {
         contestList = List();
         return contestList;
       }
+      print(response);
       contestList = (response['ResponsePacket'] as List)
           .map<ContestModel>((json) => ContestModel.fromJson(json))
           .toList();
@@ -65,6 +68,8 @@ class CricketProvider with ChangeNotifier {
   Future<ContestJoinResponseModel> joinContest(
       BuildContext context, String contestId) async {
     var userModel = await Util.read(Constant.LoginResponse);
+    var req = {'ContestId': contestId, 'UserId': userModel['Id'].toString()};
+    print(req);
     var response = await NetworkUtil.callPostApi(
         context: context,
         apiName: ApiConstant.joinContest,

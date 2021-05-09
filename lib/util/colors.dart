@@ -16,5 +16,8 @@ class ColorUtils {
   static Color otpBgInactive = HexColor("#F3F0EB");
   static Color lightPrimary = HexColor("#F2EAF3");
   static Color redLogo = HexColor('#E31E24');
-  static Color transparent = HexColor('#ffff0000');
+  static Color transparent = HexColor('#00000000');
+  static Color vColor = HexColor('#D8095D');
+  static Color transparentPurple = HexColor('#61409Bff');
+  static Color greyContest = HexColor('#DEDEEC');
 }
